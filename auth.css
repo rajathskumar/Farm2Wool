@@ -1,0 +1,39 @@
+/* Account screens follow Farm2Wool's forest green and frosted glass palette. */
+.f2w-auth-page {margin:0;min-height:100vh;color:#173c2c;background:linear-gradient(120deg,#0f3525d9,#244d3799),url('farmer.jpeg') center/cover fixed;font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.f2w-auth-page[data-role="manufacturer"] {background-image:linear-gradient(120deg,#0f3525d9,#244d3799),url('manufacturer.jpeg');}
+.f2w-auth-page[data-role="customer"] {background-image:linear-gradient(120deg,#0f3525d9,#244d3799),url('customer.jpeg');}
+.f2w-auth-page * {box-sizing:border-box;}
+.f2w-auth-page [hidden] {display:none !important;}
+.f2w-auth-shell {max-width:1120px;margin:auto;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:56px;padding:40px 24px;align-items:center;}
+.f2w-auth-story {color:#f4faf5;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;padding:24px 0;min-height:500px;}
+.f2w-auth-story a {color:#f4faf5;text-underline-offset:5px;}
+.f2w-auth-brand {font:700 30px Georgia,serif;text-decoration:none;}
+.f2w-auth-story h1 {font:500 clamp(36px,4vw,56px)/1.12 Georgia,serif;margin:20px 0;letter-spacing:-1px;}
+.f2w-auth-story p {max-width:390px;color:#dfebe1;line-height:1.8;}
+.f2w-eyebrow {font-size:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase;}
+.f2w-auth-card {padding:36px;background:linear-gradient(135deg,#fffffff2,#edf6efe6);border:1px solid #ffffffaa;border-radius:28px;box-shadow:0 24px 80px #061d1844,inset 0 1px #fff;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
+.f2w-auth-card h2 {font:700 34px/1.2 Georgia,serif;margin:14px 0 10px;}
+.f2w-auth-card p {color:#52675a;font-size:14px;}
+.f2w-auth-card label {display:block;font-size:14px;font-weight:650;margin:17px 0 7px;}
+.f2w-auth-card label span {font-weight:400;color:#52675a;}
+.f2w-auth-card input,.f2w-auth-card select {width:100%;min-height:48px;border:1px solid #afc3b5;border-radius:12px;background:#ffffffd9;color:#173c2c;padding:12px 14px;font:inherit;font-size:16px;}
+.f2w-auth-card button {font:inherit;cursor:pointer;min-height:44px;}
+.f2w-auth-card :is(button,input,select,a):focus-visible {outline:3px solid #b8963f;outline-offset:3px;}
+.f2w-auth-tabs {display:flex;gap:6px;background:#dfeae2;padding:5px;border-radius:14px;margin:22px 0;}
+.f2w-auth-tabs button {flex:1;border:0;border-radius:10px;background:transparent;color:#385544;font-size:14px;}
+.f2w-auth-tabs button[aria-pressed="true"] {background:#fff;color:#173c2c;box-shadow:0 2px 8px #173c2c15;font-weight:700;}
+.f2w-password-wrap {position:relative;}
+.f2w-password-wrap input {padding-right:72px;}
+.f2w-password-wrap button {position:absolute;right:7px;top:3px;background:transparent;border:0;color:#315e43;font-size:13px;font-weight:650;}
+.f2w-auth-card .f2w-field-hint {font-size:12px;margin:6px 0 12px;}
+.f2w-auth-submit {width:100%;border:0;border-radius:12px;background:#214e36;color:#fff;font-weight:700 !important;padding:14px;margin-top:24px;}
+.f2w-auth-submit:hover {background:#153c28;}
+.f2w-auth-card button:disabled {opacity:.65;cursor:wait;}
+.f2w-auth-card .f2w-auth-error {padding:12px;border:1px solid #d7978b;border-radius:10px;background:#fff0ed;color:#8b3022;}
+.f2w-auth-card .f2w-auth-notice {padding:12px;border:1px solid #afc3b5;border-radius:10px;background:#e6f0e8;}
+.f2w-auth-card .f2w-auth-footnote {font-size:12px;margin:20px 0 0;}
+.f2w-account-bar {display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:12px;padding:10px 24px;background:#edf6eff2;color:#173c2c;font:14px/1.5 system-ui,sans-serif;position:relative;z-index:1002;border-bottom:1px solid #c9dbcf;}
+.f2w-account-bar button {background:#214e36;color:white;border:0;border-radius:10px;padding:10px 18px;min-height:42px;cursor:pointer;font:600 14px system-ui,sans-serif;}
+.f2w-account-bar button:focus-visible {outline:3px solid #b8963f;outline-offset:2px;}
+.f2w-account-bar span[role="status"]:empty {display:none;}
+@media(max-width:760px) {.f2w-auth-shell{grid-template-columns:1fr;gap:24px;padding:24px 16px}.f2w-auth-story{min-height:0;padding:0}.f2w-auth-story>div{display:none}.f2w-auth-story>a:last-child{margin-top:12px;font-size:14px}.f2w-auth-card{padding:26px 22px;border-radius:22px}.f2w-account-bar{padding:10px 16px}}

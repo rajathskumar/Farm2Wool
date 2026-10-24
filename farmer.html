@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Farm2Wool | Farmer Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ================================
+           FARMER PORTAL
+        ================================= */
+
+        body.portal-page {
+            margin: 0;
+            background: #f5f7f5;
+            color: #26332b;
+        }
+
+        .farmer-layout {
+            min-height: 100vh;
+        }
+
+        .farmer-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: #214a35;
+            color: white;
+            padding: 25px 18px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .farmer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 22px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .farmer-brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .farmer-brand strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+        }
+
+        .farmer-brand small {
+            display: block;
+            color: #b8c9bd;
+            font-size: 9px;
+            margin-top: 2px;
+        }
+
+        .farmer-nav-title {
+            margin: 25px 10px 10px;
+            color: #91aa99;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .farmer-nav a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 11px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #dbe6de;
+            text-decoration: none;
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .farmer-nav a:hover,
+        .farmer-nav a.active {
+            background: rgba(255,255,255,.11);
+            color: white;
+        }
+
+        .farmer-nav-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        .farmer-sidebar-bottom {
+            margin-top: 30px;
+            padding: 14px 10px;
+            border-top: 1px solid rgba(255,255,255,.1);
+            color: #aebfb3;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .farmer-main {
+            margin-left: 250px;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .farmer-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .farmer-title h1 {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            color: #214a35;
+            font-size: 30px;
+        }
+
+        .farmer-title p {
+            margin: 5px 0 0;
+            color: #718078;
+            font-size: 12px;
+        }
+
+        .farmer-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: white;
+            border: 1px solid #dfe7e1;
+            padding: 7px 13px 7px 7px;
+            border-radius: 30px;
+        }
+
+        .farmer-user-avatar {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #eaf2ec;
+        }
+
+        .farmer-user span {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .farmer-stats {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .farmer-stat {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 14px;
+            padding: 19px;
+        }
+
+        .farmer-stat-icon {
+            width: 39px;
+            height: 39px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #eaf2ec;
+        }
+
+        .farmer-stat strong {
+            display: block;
+            margin-top: 14px;
+            color: #214a35;
+            font-size: 25px;
+        }
+
+        .farmer-stat span {
+            color: #7b8780;
+            font-size: 10px;
+        }
+
+        .farmer-card {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 15px;
+            padding: 23px;
+            margin-bottom: 20px;
+        }
+
+        .farmer-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #edf1ee;
+        }
+
+        .farmer-card-header h2 {
+            margin: 0;
+            color: #214a35;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        .farmer-card-header span {
+            color: #7b8780;
+            font-size: 10px;
+        }
+
+        .farmer-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 17px;
+        }
+
+        .farmer-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .farmer-field.full {
+            grid-column: 1/-1;
+        }
+
+        .farmer-field label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #34443a;
+        }
+
+        .farmer-field input,
+        .farmer-field select,
+        .farmer-field textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #dfe7e1;
+            border-radius: 8px;
+            background: #fbfcfb;
+            outline: none;
+            font-size: 11px;
+            color: #26332b;
+        }
+
+        .farmer-field textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .farmer-field input:focus,
+        .farmer-field select:focus,
+        .farmer-field textarea:focus {
+            border-color: #315c43;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(49,92,67,.08);
+        }
+
+        .quality-intro {
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            background: #f1f7f2;
+            border: 1px solid #dce9df;
+            border-radius: 10px;
+            color: #54705d;
+            font-size: 11px;
+        }
+
+        .quality-grid-farmer {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 14px;
+        }
+
+        .quality-number {
+            color: #47765a;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .farmer-submit {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 22px;
+            gap: 10px;
+        }
+
+        .farmer-btn {
+            border: none;
+            border-radius: 9px;
+            padding: 11px 17px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .farmer-btn-primary {
+            background: #315c43;
+            color: white;
+        }
+
+        .farmer-btn-primary:hover {
+            background: #214a35;
+        }
+
+        .farmer-btn-secondary {
+            background: #eaf2ec;
+            color: #315c43;
+        }
+
+        .batch-list {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 16px;
+        }
+
+        .batch-item {
+            border: 1px solid #dfe7e1;
+            border-radius: 13px;
+            padding: 17px;
+            background: #fff;
+        }
+
+        .batch-item-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .batch-id {
+            color: #315c43;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .batch-item h3 {
+            margin: 4px 0 12px;
+            font-family: "Playfair Display", serif;
+            color: #214a35;
+            font-size: 17px;
+        }
+
+        .batch-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .batch-info div {
+            padding: 8px;
+            background: #f7f9f7;
+            border-radius: 7px;
+        }
+
+        .batch-info small {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+        }
+
+        .batch-info strong {
+            font-size: 10px;
+        }
+
+        .batch-actions {
+            display: flex;
+            gap: 7px;
+            margin-top: 13px;
+        }
+
+        .batch-actions button {
+            flex: 1;
+        }
+
+        .qr-box {
+            text-align: center;
+        }
+
+        .qr-box img {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+            margin: 10px auto;
+            border: 1px solid #dfe7e1;
+            border-radius: 10px;
+            padding: 8px;
+            background: white;
+        }
+
+        .qr-id {
+            font-size: 12px;
+            font-weight: 700;
+            color: #214a35;
+        }
+
+        .modal-farmer {
+            position: fixed;
+            inset: 0;
+            background: rgba(20,35,27,.58);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+            padding: 20px;
+        }
+
+        .modal-farmer.show {
+            display: flex;
+        }
+
+        .modal-farmer-box {
+            width: min(750px,100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 17px;
+            padding: 24px;
+        }
+
+        .modal-farmer-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #dfe7e1;
+        }
+
+        .modal-farmer-head h2 {
+            margin: 0;
+            font-family: "Playfair Display",serif;
+            color: #214a35;
+        }
+
+        .modal-close-farmer {
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 10px;
+        }
+
+        .detail-box {
+            background: #f7f9f7;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .detail-box span {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+        }
+
+        .detail-box strong {
+            font-size: 11px;
+        }
+
+        @media(max-width:1000px) {
+            .farmer-stats {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .quality-grid-farmer {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .batch-list {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:750px) {
+            .farmer-sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .farmer-brand > div:last-child,
+            .farmer-nav-title,
+            .farmer-nav a span:not(.farmer-nav-icon),
+            .farmer-sidebar-bottom {
+                display: none;
+            }
+
+            .farmer-nav a {
+                justify-content: center;
+            }
+
+            .farmer-main {
+                margin-left: 70px;
+                padding: 18px;
+            }
+
+            .farmer-form-grid,
+            .quality-grid-farmer,
+            .batch-list {
+                grid-template-columns: 1fr;
+            }
+
+            .farmer-field.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+<link rel="stylesheet" href="auth.css">
+<script src="auth.js" defer></script>
+<link rel="stylesheet" href="style.css">
+<script src="batch-details.js"></script>
+</head>
+
+<body class="portal-page" data-f2w-portal="farmer">
+
+<div class="farmer-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="farmer-sidebar">
+
+        <div class="farmer-brand">
+            <div class="farmer-brand-icon">🐑</div>
+
+            <div>
+                <strong>Farm2Wool</strong>
+                <small>Traceability Platform</small>
+            </div>
+        </div>
+
+        <div class="farmer-nav-title">FARMER PORTAL</div>
+
+        <nav class="farmer-nav">
+
+            <a href="#dashboard" class="active">
+                <span class="farmer-nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#register">
+                <span class="farmer-nav-icon">＋</span>
+                <span>Register Wool</span>
+            </a>
+
+            <a href="#batches">
+                <span class="farmer-nav-icon">▣</span>
+                <span>My Batches</span>
+            </a>
+
+        </nav>
+
+        <div class="farmer-sidebar-bottom">
+            <strong>Farmer Wool Producer</strong>
+            <br>
+            Your registered wool remains traceable throughout the Farm2Wool workflow.
+            <br><br>
+            <a href="index.html" style="color:white;">← Back to Home</a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="farmer-main">
+
+        <div class="farmer-topbar">
+
+            <div class="farmer-title">
+                <h1>Farmer Dashboard</h1>
+                <p>Register and manage your wool batches.</p>
+            </div>
+
+            <div class="farmer-user">
+                <div class="farmer-user-avatar">👨‍🌾</div>
+                <span>Farmer</span>
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+        <section class="farmer-stats" id="dashboard">
+
+            <div class="farmer-stat">
+                <div class="farmer-stat-icon">▣</div>
+                <strong id="totalBatches">0</strong>
+                <span>Total Batches</span>
+            </div>
+
+            <div class="farmer-stat">
+                <div class="farmer-stat-icon">⚖</div>
+                <strong id="totalWeight">0 kg</strong>
+                <span>Total Wool</span>
+            </div>
+
+            <div class="farmer-stat">
+                <div class="farmer-stat-icon">₹</div>
+                <strong id="totalValue">₹0</strong>
+                <span>Estimated Value</span>
+            </div>
+
+            <div class="farmer-stat">
+                <div class="farmer-stat-icon">✓</div>
+                <strong id="availableBatches">0</strong>
+                <span>Available</span>
+            </div>
+
+        </section>
+
+
+        <!-- REGISTER -->
+        <section class="farmer-card" id="register">
+
+            <div class="farmer-card-header">
+                <h2>Register Wool Batch</h2>
+                <span>Complete the 16-parameter wool quality declaration.</span>
+            </div>
+
+            <div class="quality-intro">
+                <strong>Important:</strong>
+                These values are the farmer's original quality declaration.
+                The manufacturer will later enter an independent inspection record.
+            </div>
+
+            <form id="batchForm">
+
+                <div class="farmer-form-grid">
+
+                    <div class="farmer-field">
+                        <label>Batch Name *</label>
+                        <input id="batchName" required placeholder="Example: Hassan Wool Lot 01">
+                    </div>
+
+                    <div class="farmer-field">
+                        <label>Wool Weight (kg) *</label>
+                        <input id="weight" type="number" min="1" step="0.1" required placeholder="Example: 250">
+                    </div>
+
+                    <div class="farmer-field">
+                        <label>Breed / Wool Type *</label>
+                        <select id="breed" required>
+                            <option value="">Select breed</option>
+                            <option>Merino</option>
+                            <option>Deccani</option>
+                            <option>Bellary</option>
+                            <option>Nellore</option>
+                            <option>Mandya</option>
+                            <option>Hassan</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label>Collection Date *</label>
+                        <input id="collectionDate" type="date" required>
+                    </div>
+
+                    <div class="farmer-field full">
+                        <label>Farm Location *</label>
+                        <input id="location" required placeholder="Example: Hassan, Karnataka">
+                    </div>
+
+                </div>
+
+
+                <div class="farmer-card-header" style="margin-top:28px;">
+                    <h2>Wool Quality Parameters</h2>
+                    <span>16 parameters</span>
+                </div>
+
+
+                <div class="quality-grid-farmer">
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">01</span> Fibre Thickness (microns) *</label>
+                        <input id="fibreThickness" type="number" step="0.1" required>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">02</span> Fibre Length (mm) *</label>
+                        <input id="fibreLength" type="number" step="0.1" required>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">03</span> Moisture Content (%) *</label>
+                        <input id="moisture" type="number" step="0.1" required>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">04</span> Cleanliness *</label>
+                        <select id="cleanliness" required>
+                            <option value="">Select</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Average</option>
+                            <option>Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">05</span> Grease / Lanolin (%) *</label>
+                        <input id="grease" type="number" step="0.1" required>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">06</span> Wool Yield (%) *</label>
+                        <input id="yield" type="number" step="0.1" required>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">07</span> Fibre Strength (N/ktex) *</label>
+                        <input id="strength" type="number" step="0.1" required>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">08</span> Colour *</label>
+                        <select id="colour" required>
+                            <option value="">Select</option>
+                            <option>Bright White</option>
+                            <option>White</option>
+                            <option>Cream</option>
+                            <option>Grey</option>
+                            <option>Brown</option>
+                            <option>Black</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">09</span> Fibre Uniformity *</label>
+                        <select id="uniformity" required>
+                            <option value="">Select</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Average</option>
+                            <option>Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">10</span> Crimp *</label>
+                        <select id="crimp" required>
+                            <option value="">Select</option>
+                            <option>High</option>
+                            <option>Medium</option>
+                            <option>Low</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">11</span> Contamination *</label>
+                        <select id="contamination" required>
+                            <option value="">Select</option>
+                            <option>None</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">12</span> Odour / Storage *</label>
+                        <select id="odourStorage" required>
+                            <option value="">Select</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Average</option>
+                            <option>Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">13</span> Pest / Damage *</label>
+                        <select id="pestDamage" required>
+                            <option value="">Select</option>
+                            <option>None</option>
+                            <option>Minor</option>
+                            <option>Moderate</option>
+                            <option>Severe</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">14</span> Breed / Wool Type *</label>
+                        <select id="woolType" required>
+                            <option value="">Select</option>
+                            <option>Fine Wool</option>
+                            <option>Medium Wool</option>
+                            <option>Coarse Wool</option>
+                            <option>Mixed Wool</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">15</span> Shearing Condition *</label>
+                        <select id="shearingCondition" required>
+                            <option value="">Select</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Average</option>
+                            <option>Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field">
+                        <label><span class="quality-number">16</span> Lot Consistency *</label>
+                        <select id="lotConsistency" required>
+                            <option value="">Select</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Average</option>
+                            <option>Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="farmer-field full">
+                        <label>Additional Notes</label>
+                        <textarea id="notes" placeholder="Optional notes about the wool batch"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="farmer-submit">
+                    <button type="reset" class="farmer-btn farmer-btn-secondary">
+                        Clear
+                    </button>
+
+                    <button type="submit" class="farmer-btn farmer-btn-primary">
+                        Register Wool Batch →
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- BATCHES -->
+        <section class="farmer-card" id="batches">
+
+            <div class="farmer-card-header">
+                <h2>My Wool Batches</h2>
+                <span>Registered Farm2Wool batches</span>
+            </div>
+
+            <div id="batchList" class="batch-list"></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- QR MODAL -->
+<div id="qrModal" class="modal-farmer">
+
+    <div class="modal-farmer-box">
+
+        <div class="modal-farmer-head">
+            <h2>Batch QR Code</h2>
+
+            <button
+                class="modal-close-farmer"
+                onclick="closeQR()">
+                ×
+            </button>
+        </div>
+
+        <div class="qr-box">
+
+            <div id="qrBatchName" style="font-weight:700;color:#214a35;"></div>
+
+            <img id="qrImage" alt="Batch QR Code">
+
+            <div class="qr-id" id="qrBatchId"></div>
+
+            <p style="font-size:10px;color:#7b8780;">
+                This QR contains the batch details and all 16 registered wool quality parameters.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DETAIL MODAL -->
+<div id="detailModal" class="modal-farmer">
+
+    <div class="modal-farmer-box">
+
+        <div class="modal-farmer-head">
+            <h2>Batch Details</h2>
+
+            <button
+                class="modal-close-farmer"
+                onclick="closeDetails()">
+                ×
+            </button>
+        </div>
+
+        <div id="detailContent"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const STORAGE_KEY = "farm2woolBatches";
+
+
+function getBatches() {
+
+    try {
+        return JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || [];
+    }
+
+    catch(error) {
+        return [];
+    }
+
+}
+
+
+function saveBatches(batches) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(batches)
+    );
+
+}
+
+
+function generateBatchId() {
+
+    const now = new Date();
+
+    const date =
+        now.getFullYear().toString() +
+        String(now.getMonth()+1).padStart(2,"0") +
+        String(now.getDate()).padStart(2,"0");
+
+    const batches = getBatches();
+
+    const count =
+        batches.filter(b =>
+            String(b.id || "").startsWith("F2W" + date)
+        ).length + 1;
+
+    return "F2W" + date +
+        String(count).padStart(2,"0");
+
+}
+
+
+function value(id) {
+
+    return document.getElementById(id).value.trim();
+
+}
+
+
+function calculateQualityScore(q) {
+
+    let score = 100;
+
+    const thickness = Number(q.fibreThickness);
+
+    if(thickness > 30) score -= 8;
+    if(Number(q.moisture) > 15) score -= 10;
+
+    if(q.cleanliness === "Average") score -= 7;
+    if(q.cleanliness === "Poor") score -= 15;
+
+    if(q.uniformity === "Average") score -= 5;
+    if(q.uniformity === "Poor") score -= 12;
+
+    if(q.contamination === "Low") score -= 4;
+    if(q.contamination === "Medium") score -= 9;
+    if(q.contamination === "High") score -= 18;
+
+    if(q.pestDamage === "Minor") score -= 4;
+    if(q.pestDamage === "Moderate") score -= 9;
+    if(q.pestDamage === "Severe") score -= 18;
+
+    if(q.odourStorage === "Average") score -= 5;
+    if(q.odourStorage === "Poor") score -= 10;
+
+    if(q.shearingCondition === "Average") score -= 4;
+    if(q.shearingCondition === "Poor") score -= 9;
+
+    if(q.lotConsistency === "Average") score -= 4;
+    if(q.lotConsistency === "Poor") score -= 8;
+
+    return Math.max(40, Math.min(100, score));
+}
+
+
+function calculateRate(breed, score) {
+
+    const rates = {
+        "Merino": 520,
+        "Deccani": 300,
+        "Bellary": 280,
+        "Nellore": 290,
+        "Mandya": 310,
+        "Hassan": 320,
+        "Other": 250
+    };
+
+    const base = rates[breed] || 250;
+
+    let multiplier = 1;
+
+    if(score >= 90) multiplier = 1.15;
+    else if(score >= 80) multiplier = 1.08;
+    else if(score >= 70) multiplier = 1;
+    else multiplier = .90;
+
+    return Math.round(base * multiplier);
+
+}
+
+
+document
+.getElementById("collectionDate")
+.value =
+new Date().toISOString().split("T")[0];
+
+
+document
+.getElementById("batchForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const q = {
+
+        fibreThickness: value("fibreThickness"),
+        fibreLength: value("fibreLength"),
+        moisture: value("moisture"),
+        cleanliness: value("cleanliness"),
+        grease: value("grease"),
+        yield: value("yield"),
+        strength: value("strength"),
+        colour: value("colour"),
+        uniformity: value("uniformity"),
+        crimp: value("crimp"),
+        contamination: value("contamination"),
+        odourStorage: value("odourStorage"),
+        pestDamage: value("pestDamage"),
+        woolType: value("woolType"),
+        shearingCondition: value("shearingCondition"),
+        lotConsistency: value("lotConsistency")
+
+    };
+
+
+    const score =
+        calculateQualityScore(q);
+
+    const rate =
+        calculateRate(
+            value("breed"),
+            score
+        );
+
+    const weight =
+        Number(value("weight"));
+
+    const batch = {
+
+        id: generateBatchId(),
+
+        batchName: value("batchName"),
+
+        weight: weight,
+
+        breed: value("breed"),
+
+        collectionDate:
+            value("collectionDate"),
+
+        location:
+            value("location"),
+
+        qualityParameters: q,
+
+        qualityScore: score,
+
+        indicativeRate: rate,
+
+        indicativePrice:
+            Math.round(weight * rate),
+
+        stage: "Available",
+
+        purchaseStatus: "Available",
+
+        inspectionStatus: "Not Started",
+
+        paymentStatus: "Not Purchased",
+
+        returnStatus: "None",
+
+        strikes: 0,
+
+        verificationDifference: null,
+
+        manufacturerId: "",
+
+        manufacturerName: "",
+
+        purchasedAt: "",
+
+        inspectedAt: "",
+
+        notes: value("notes"),
+
+        productId: "",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    const batches = getBatches();
+
+    batches.push(batch);
+
+    saveBatches(batches);
+
+    alert(
+        "Wool batch registered successfully!\n\nBatch ID: " +
+        batch.id
+    );
+
+    this.reset();
+
+    document
+    .getElementById("collectionDate")
+    .value =
+        new Date().toISOString().split("T")[0];
+
+    renderBatches();
+
+    updateStats();
+
+    showQR(batch);
+
+});
+
+
+function updateStats() {
+
+    const batches = getBatches();
+
+    document.getElementById("totalBatches")
+        .textContent = batches.length;
+
+
+    const weight =
+        batches.reduce(
+            (sum,b) =>
+                sum + Number(b.weight || 0),
+            0
+        );
+
+    document.getElementById("totalWeight")
+        .textContent =
+        weight.toLocaleString() + " kg";
+
+
+    const valueTotal =
+        batches.reduce(
+            (sum,b) =>
+                sum + Number(b.indicativePrice || 0),
+            0
+        );
+
+    document.getElementById("totalValue")
+        .textContent =
+        "₹" + valueTotal.toLocaleString();
+
+
+    const available =
+        batches.filter(b =>
+            !b.purchaseStatus ||
+            b.purchaseStatus === "Available"
+        ).length;
+
+
+    document.getElementById("availableBatches")
+        .textContent = available;
+
+}
+
+
+function renderBatches() {
+
+    const container =
+        document.getElementById("batchList");
+
+    const batches =
+        getBatches();
+
+    if(!batches.length) {
+
+        container.innerHTML = `
+            <div style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:40px;
+                color:#7b8780;
+                font-size:12px;
+            ">
+                No wool batches registered yet.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        batches
+        .slice()
+        .reverse()
+        .map(batch => {
+
+            const status =
+                batch.stage || "Available";
+
+            return `
+
+                <div class="batch-item">
+
+                    <div class="batch-item-top">
+
+                        <div>
+                            <div class="batch-id">
+                                ${escapeHtml(batch.id)}
+                            </div>
+
+                            <h3>
+                                ${escapeHtml(batch.batchName)}
+                            </h3>
+                        </div>
+
+                        <span style="
+                            font-size:9px;
+                            padding:5px 8px;
+                            border-radius:15px;
+                            background:#eaf2ec;
+                            color:#315c43;
+                            height:max-content;
+                        ">
+                            ${escapeHtml(status)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="batch-info">
+
+                        <div>
+                            <small>Weight</small>
+                            <strong>${batch.weight} kg</strong>
+                        </div>
+
+                        <div>
+                            <small>Quality</small>
+                            <strong>${batch.qualityScore}%</strong>
+                        </div>
+
+                        <div>
+                            <small>Rate</small>
+                            <strong>₹${batch.indicativeRate}/kg</strong>
+                        </div>
+
+                        <div>
+                            <small>Value</small>
+                            <strong>₹${Number(batch.indicativePrice).toLocaleString()}</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="batch-actions">
+
+                        <button
+                            class="farmer-btn farmer-btn-secondary"
+                            onclick="showQRById('${batch.id}')">
+                            QR
+                        </button>
+
+                        <button
+                            class="farmer-btn farmer-btn-secondary"
+                            onclick="showDetails('${batch.id}')">
+                            View
+                        </button>
+
+                        <button
+                            class="farmer-btn"
+                            style="background:#fbeaea;color:#a63f3d;"
+                            onclick="deleteBatch('${batch.id}')">
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+function showQRById(id) {
+
+    const batch =
+        getBatches()
+        .find(b => b.id === id);
+
+    if(batch) showQR(batch);
+
+}
+
+
+
+
+function buildQRPayload(batch) { return f2wQRText(batch); }
+
+function showQR(batch) { f2wShowBatch(batch.id, true); }
+
+
+function closeQR() {
+
+    document.getElementById("qrModal")
+        .classList.remove("show");
+
+}
+
+
+function showDetails(id) { f2wShowBatch(id, false); }
+
+
+function detail(name,value) {
+
+    return `
+        <div class="detail-box">
+            <span>${name}</span>
+            <strong>${escapeHtml(value || "-")}</strong>
+        </div>
+    `;
+
+}
+
+
+function closeDetails() {
+
+    document.getElementById("detailModal")
+        .classList.remove("show");
+
+}
+
+
+function deleteBatch(id) {
+
+    if(!confirm(
+        "Delete this wool batch?"
+    )) return;
+
+
+    const batches =
+        getBatches()
+        .filter(b => b.id !== id);
+
+    saveBatches(batches);
+
+    renderBatches();
+
+    updateStats();
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+updateStats();
+renderBatches();
+
+</script>
+
+</body>
+</html>

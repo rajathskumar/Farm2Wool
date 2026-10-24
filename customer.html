@@ -1,0 +1,3962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Farm2Wool | Customer Traceability</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body.customer-page {
+            margin: 0;
+            background: #f5f7f5;
+            color: #24362b;
+            font-family: "DM Sans", Arial, sans-serif;
+        }
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .customer-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: #214a35;
+            color: white;
+            padding: 25px 18px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .customer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 22px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .customer-brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .customer-brand strong {
+            display: block;
+            font-family: "Playfair Display", serif;
+            font-size: 21px;
+        }
+
+        .customer-brand small {
+            display: block;
+            color: #b8c9bd;
+            font-size: 9px;
+        }
+
+        .customer-nav-title {
+            margin: 25px 10px 10px;
+            color: #91aa99;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .customer-nav a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 11px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            color: #dbe6de;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .customer-nav a:hover,
+        .customer-nav a.active {
+            background: rgba(255,255,255,.11);
+            color: white;
+        }
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        .customer-main {
+            margin-left: 250px;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .customer-topbar {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .customer-topbar h1 {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            color: #214a35;
+            font-size: 30px;
+        }
+
+        .customer-topbar p {
+            margin: 5px 0 0;
+            color: #718078;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           SEARCH
+           ===================================================== */
+
+        .trace-search {
+            background: #214a35;
+            border-radius: 18px;
+            padding: 28px;
+            margin-bottom: 22px;
+            color: white;
+        }
+
+        .trace-search h2 {
+            margin: 0 0 7px;
+            color: white;
+            font-family: "Playfair Display", serif;
+        }
+
+        .trace-search p {
+            color: #c7d7cc;
+            font-size: 11px;
+            margin: 0 0 18px;
+        }
+
+        .trace-search-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .trace-search-row input {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            font-size: 12px;
+            min-width: 0;
+        }
+
+        .trace-search-row button {
+            padding: 0 20px;
+            min-height: 43px;
+            border: none;
+            border-radius: 8px;
+            background: #d3b06b;
+            color: #214a35;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .trace-search-row button:hover {
+            opacity: .9;
+        }
+
+
+
+        /* =====================================================
+           FILTER BAR
+           ===================================================== */
+
+        .batch-toolbar {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .batch-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .batch-toolbar h3 {
+            margin: 0 10px 0 0;
+            color: #214a35;
+            font-family: "Playfair Display", serif;
+            font-size: 17px;
+        }
+
+        .filter-button {
+            border: 1px solid #d6e0d9;
+            background: #f7f9f7;
+            color: #506157;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: #214a35;
+            color: white;
+            border-color: #214a35;
+        }
+
+        .refresh-button {
+            border: none;
+            background: #eaf2ec;
+            color: #315c43;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           STATS
+           ===================================================== */
+
+        .customer-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+            margin-bottom: 22px;
+        }
+
+        .customer-stat {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 14px;
+            padding: 17px;
+        }
+
+        .customer-stat span {
+            display: block;
+            color: #7b8780;
+            font-size: 9px;
+            margin-bottom: 7px;
+        }
+
+        .customer-stat strong {
+            display: block;
+            color: #214a35;
+            font-size: 22px;
+        }
+
+        /* =====================================================
+           BATCH LIST
+           ===================================================== */
+
+        .batch-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .batch-card {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 15px;
+            padding: 18px;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .batch-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33,74,53,.08);
+            border-color: #b8cdbd;
+        }
+
+        .batch-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .batch-card h3 {
+            margin: 0 0 4px;
+            color: #214a35;
+            font-family: "Playfair Display", serif;
+            font-size: 18px;
+        }
+
+        .batch-id {
+            font-size: 9px;
+            color: #7b8780;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-registered {
+            background: #edf3ee;
+            color: #41634e;
+        }
+
+        .status-purchased {
+            background: #fff5df;
+            color: #916c2d;
+        }
+
+        .status-verified {
+            background: #e4f4e8;
+            color: #28713e;
+        }
+
+        .status-failed {
+            background: #fde9e9;
+            color: #a63f3d;
+        }
+
+        .status-returned {
+            background: #f1e8f8;
+            color: #71458a;
+        }
+
+        .batch-card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .batch-card-item {
+            background: #f7f9f7;
+            border-radius: 8px;
+            padding: 9px;
+        }
+
+        .batch-card-item span {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+            margin-bottom: 3px;
+        }
+
+        .batch-card-item strong {
+            display: block;
+            color: #304238;
+            font-size: 10px;
+        }
+
+        .batch-card-quality {
+            margin-top: 13px;
+        }
+
+        .mini-progress {
+            height: 7px;
+            background: #e6ece7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .mini-progress-fill {
+            height: 100%;
+            background: #315c43;
+            border-radius: 10px;
+        }
+
+        .empty-customer {
+            padding: 50px;
+            text-align: center;
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 15px;
+            color: #7b8780;
+        }
+
+        /* =====================================================
+           SELECTED BATCH
+           ===================================================== */
+
+        .customer-card {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 15px;
+            padding: 23px;
+            margin-bottom: 20px;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .product-header h2 {
+            margin: 0 0 5px;
+            font-family: "Playfair Display", serif;
+            color: #214a35;
+        }
+
+        .product-header p {
+            margin: 0;
+            color: #7b8780;
+            font-size: 11px;
+        }
+
+        .verified {
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: #e8f5eb;
+            color: #2f7044;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .summary-grid-customer {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 11px;
+            margin-top: 22px;
+        }
+
+        .summary-item-customer {
+            padding: 12px;
+            background: #f7f9f7;
+            border-radius: 9px;
+        }
+
+        .summary-item-customer span {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+            margin-bottom: 4px;
+        }
+
+        .summary-item-customer strong {
+            font-size: 10px;
+            color: #304238;
+        }
+
+        .trace-grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 20px;
+        }
+
+        .section-title-customer {
+            margin: 0 0 18px;
+            color: #214a35;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+        }
+
+        /* =====================================================
+           JOURNEY
+           ===================================================== */
+
+        .timeline {
+            position: relative;
+            padding-left: 31px;
+        }
+
+        .timeline:before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: #dce6df;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -31px;
+            top: 1px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #dce6df;
+            border: 4px solid white;
+            box-shadow: 0 0 0 1px #d1ddd5;
+        }
+
+        .timeline-item.done .timeline-dot {
+            background: #315c43;
+        }
+
+        .timeline-item.current .timeline-dot {
+            background: #b18a45;
+        }
+
+        .timeline-item h3 {
+            margin: 0;
+            color: #214a35;
+            font-size: 13px;
+        }
+
+        .timeline-item small {
+            color: #7b8780;
+            font-size: 9px;
+        }
+
+        .timeline-item p {
+            color: #647169;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           QUALITY
+           ===================================================== */
+
+        .quality-customer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .quality-customer-item {
+            padding: 9px;
+            background: #f7f9f7;
+            border-radius: 7px;
+        }
+
+        .quality-customer-item span {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+            margin-bottom: 4px;
+        }
+
+        .quality-customer-item strong {
+            font-size: 10px;
+            color: #304238;
+        }
+
+        /* =====================================================
+           QUALITY REPORT
+           ===================================================== */
+
+        .quality-report {
+            background: #f7f9f7;
+            border-radius: 13px;
+            padding: 18px;
+        }
+
+        .quality-score-box {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .quality-big-score {
+            background: #eaf2ec;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .quality-big-score strong {
+            display: block;
+            color: #214a35;
+            font-family: "Playfair Display", serif;
+            font-size: 40px;
+            line-height: 1;
+        }
+
+        .quality-big-score span {
+            display: block;
+            margin-top: 8px;
+            color: #647169;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .rating-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px 22px;
+        }
+
+        .rating-row {
+            min-width: 0;
+        }
+
+        .rating-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .rating-name {
+            color: #405047;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .rating-value {
+            color: #214a35;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .rating-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e7e1;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .rating-fill {
+            height: 100%;
+            border-radius: 20px;
+            background: #315c43;
+            transition: width .5s ease;
+        }
+
+        .rating-fill.medium {
+            background: #b18a45;
+        }
+
+        .rating-fill.low {
+            background: #b65b54;
+        }
+
+        /* =====================================================
+           MARKET VALUE
+           ===================================================== */
+
+        .market-value-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .market-value-card {
+            background: white;
+            border: 1px solid #dfe7e1;
+            border-radius: 11px;
+            padding: 15px;
+        }
+
+        .market-value-card span {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+            margin-bottom: 6px;
+        }
+
+        .market-value-card strong {
+            display: block;
+            color: #214a35;
+            font-size: 18px;
+        }
+
+        .market-value-card small {
+            display: block;
+            color: #7b8780;
+            font-size: 8px;
+            margin-top: 4px;
+        }
+
+        .value-difference {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 9px;
+            background: #fff6e4;
+            color: #7e602b;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        /* =====================================================
+           QR
+           ===================================================== */
+
+        .qr-customer {
+            text-align: center;
+        }
+
+        .qr-customer img {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+            border: 1px solid #dfe7e1;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        /* =====================================================
+           SCANNER
+           ===================================================== */
+
+
+
+        #reader {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .scanner-message {
+            text-align: center;
+            color: #647169;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media(max-width:1100px) {
+
+            .customer-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .batch-list {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid-customer {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .trace-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media(max-width:750px) {
+
+            .customer-sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .customer-brand > div:last-child,
+            .customer-nav-title,
+            .customer-nav a span {
+                display: none;
+            }
+
+            .customer-nav a {
+                justify-content: center;
+            }
+
+            .customer-main {
+                margin-left: 70px;
+                padding: 18px;
+            }
+
+            .trace-search-row {
+                flex-direction: column;
+            }
+
+            .trace-search-row button {
+                min-height: 42px;
+            }
+
+            .customer-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .summary-grid-customer {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .product-header {
+                flex-direction: column;
+            }
+
+            .batch-card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quality-score-box {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-list {
+                grid-template-columns: 1fr;
+            }
+
+            .market-value-box {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media(max-width:480px) {
+
+            .customer-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid-customer {
+                grid-template-columns: 1fr;
+            }
+
+            .batch-card-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+<link rel="stylesheet" href="auth.css">
+<script src="auth.js" defer></script>
+<link rel="stylesheet" href="style.css">
+<script src="batch-details.js"></script>
+</head>
+
+
+<body class="customer-page" data-f2w-portal="customer">
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside class="customer-sidebar">
+
+    <div class="customer-brand">
+
+        <div class="customer-brand-icon">
+            👤
+        </div>
+
+        <div>
+            <strong>Farm2Wool</strong>
+            <small>Traceability Platform</small>
+        </div>
+
+    </div>
+
+
+    <div class="customer-nav-title">
+        CUSTOMER PORTAL
+    </div>
+
+
+    <nav class="customer-nav">
+
+        <a href="#trace"
+           class="active">
+
+            <span>⌕</span>
+            <span>Trace Wool</span>
+
+        </a>
+
+
+        <a href="#registered">
+
+            <span>▣</span>
+            <span>All Batches</span>
+
+        </a>
+
+
+        <a href="#journey">
+
+            <span>↗</span>
+            <span>Journey</span>
+
+        </a>
+
+
+        <a href="#quality">
+
+            <span>✓</span>
+            <span>Quality</span>
+
+        </a>
+
+    </nav>
+
+
+    <div style="
+        margin-top:30px;
+        padding:14px 10px;
+        border-top:1px solid rgba(255,255,255,.1);
+        color:#aebfb3;
+        font-size:10px;
+        line-height:1.6;
+    ">
+
+        <strong>Customer</strong>
+
+        <br>
+
+        Discover the origin and complete wool journey.
+
+        <br><br>
+
+        <a href="index.html"
+           style="color:white;">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
+<main class="customer-main">
+
+
+    <div class="customer-topbar">
+
+        <div>
+
+            <h1>Customer Traceability</h1>
+
+            <p>
+                Discover where your wool came from,
+                how it was inspected and how its quality
+                affects its market value.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SEARCH
+         ===================================================== -->
+
+    <section class="trace-search"
+             id="trace">
+
+        <h2>
+            Trace your wool
+        </h2>
+
+        <p>
+            Enter a Farm2Wool Batch ID to view the batch details and its generated QR code.
+        </p>
+
+
+        <div class="trace-search-row">
+
+            <input
+                id="batchSearch"
+                placeholder="Example: F2W2026092501"
+                autocomplete="off"
+                onkeydown="
+                    if(event.key === 'Enter') {
+                        searchBatch();
+                    }
+                "
+            >
+
+
+            <button onclick="searchBatch()">
+                Search
+            </button>
+
+
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CUSTOMER STATISTICS
+         ===================================================== -->
+
+    <section
+        class="customer-stats"
+        id="registered">
+
+        <div class="customer-stat">
+
+            <span>
+                TOTAL REGISTERED BATCHES
+            </span>
+
+            <strong id="totalBatches">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="customer-stat">
+
+            <span>
+                VERIFIED BATCHES
+            </span>
+
+            <strong id="verifiedBatches">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="customer-stat">
+
+            <span>
+                TOTAL WOOL
+            </span>
+
+            <strong id="totalWeight">
+                0 kg
+            </strong>
+
+        </div>
+
+
+        <div class="customer-stat">
+
+            <span>
+                VERIFIED WOOL
+            </span>
+
+            <strong id="verifiedWeight">
+                0 kg
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         BATCH TOOLBAR
+         ===================================================== -->
+
+    <section class="batch-toolbar">
+
+        <div class="batch-toolbar-left">
+
+            <h3>
+                Registered Wool
+            </h3>
+
+
+            <button
+                class="filter-button active"
+                data-filter="all"
+                onclick="setFilter('all')">
+
+                All
+
+            </button>
+
+
+            <button
+                class="filter-button"
+                data-filter="registered"
+                onclick="setFilter('registered')">
+
+                Registered
+
+            </button>
+
+
+            <button
+                class="filter-button"
+                data-filter="purchased"
+                onclick="setFilter('purchased')">
+
+                Purchased
+
+            </button>
+
+
+            <button
+                class="filter-button"
+                data-filter="verified"
+                onclick="setFilter('verified')">
+
+                Verified
+
+            </button>
+
+
+            <button
+                class="filter-button"
+                data-filter="failed"
+                onclick="setFilter('failed')">
+
+                Failed
+
+            </button>
+
+
+            <button
+                class="filter-button"
+                data-filter="returned"
+                onclick="setFilter('returned')">
+
+                Returned
+
+            </button>
+
+        </div>
+
+
+        <button
+            class="refresh-button"
+            onclick="refreshBatchList()">
+
+            ↻ Refresh
+
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ALL BATCHES
+         ===================================================== -->
+
+    <div id="batchList"
+         class="batch-list">
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SELECTED BATCH
+         ===================================================== -->
+
+    <div id="resultArea"></div>
+
+
+    <div id="emptyState"
+         class="empty-customer">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:10px;
+        ">
+            🔍
+        </div>
+
+        <h3 style="
+            color:#214a35;
+            font-family:'Playfair Display',serif;
+        ">
+            Select a batch
+        </h3>
+
+        <p>
+            Click any registered batch above,
+            search for a Batch ID,
+            or scan a Farm2Wool QR code.
+        </p>
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     QR SCANNER LIBRARY
+     ========================================================= -->
+
+
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+const STORAGE_KEY = "farm2woolBatches";
+
+
+
+
+let currentFilter = "all";
+
+
+/* =========================================================
+   MARKET BENCHMARK
+   These are the same indicative demo rates used by the
+   manufacturer portal.
+   ========================================================= */
+
+const MARKET_RATES = {
+
+    "Fine Wool": 650,
+
+    "Medium Wool": 500,
+
+    "Coarse Wool": 380,
+
+    "Mixed Wool": 440
+
+};
+
+
+/* =========================================================
+   GET BATCHES
+   ========================================================= */
+
+function getBatches() {
+
+    try {
+
+        const raw =
+            localStorage.getItem(STORAGE_KEY);
+
+        if(!raw) {
+            return [];
+        }
+
+        const data =
+            JSON.parse(raw);
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+    catch(error) {
+
+        console.error(
+            "Could not read batches:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE / REFRESH
+   ========================================================= */
+
+function refreshBatchList() {
+
+    renderStats();
+
+    renderBatchList();
+
+    const search =
+        document.getElementById("batchSearch");
+
+    if(search && search.value.trim()) {
+
+        const batch =
+            findBatch(search.value.trim());
+
+        if(batch) {
+            renderBatch(batch);
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   FIND BATCH
+   ========================================================= */
+
+function findBatch(batchId) {
+
+    const batches =
+        getBatches();
+
+    const cleanId =
+        String(batchId || "")
+            .trim()
+            .toLowerCase();
+
+    return batches.find(
+        batch =>
+            String(batch.id || "")
+                .trim()
+                .toLowerCase() === cleanId
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE STATUS
+   ========================================================= */
+
+function getBatchStatus(batch) {
+
+    if(!batch) {
+        return "Registered";
+    }
+
+
+    const inspection =
+        String(
+            batch.inspectionStatus || ""
+        ).toLowerCase();
+
+
+    const stage =
+        String(
+            batch.stage || ""
+        ).toLowerCase();
+
+
+    const returnStatus =
+        String(
+            batch.returnStatus || ""
+        ).toLowerCase();
+
+
+    if(
+        returnStatus === "returned" ||
+        stage === "returned"
+    ) {
+        return "Returned";
+    }
+
+
+    if(
+        inspection === "verified" ||
+        stage === "verified" ||
+        stage === "ready to use" ||
+        stage === "ready for processing"
+    ) {
+        return "Verified";
+    }
+
+
+    if(
+        inspection === "failed"
+    ) {
+        return "Failed";
+    }
+
+
+    if(
+        batch.purchasedAt ||
+        stage === "purchased" ||
+        String(
+            batch.purchaseStatus || ""
+        ).toLowerCase() === "purchased"
+    ) {
+        return "Purchased";
+    }
+
+
+    return "Registered";
+
+}
+
+
+/* =========================================================
+   STATUS CLASS
+   ========================================================= */
+
+function statusClass(status) {
+
+    switch(status) {
+
+        case "Verified":
+            return "status-verified";
+
+        case "Purchased":
+            return "status-purchased";
+
+        case "Failed":
+            return "status-failed";
+
+        case "Returned":
+            return "status-returned";
+
+        default:
+            return "status-registered";
+
+    }
+
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function renderStats() {
+
+    const batches =
+        getBatches();
+
+
+    const verified =
+        batches.filter(
+            batch =>
+                getBatchStatus(batch) === "Verified"
+        );
+
+
+    const totalWeight =
+        batches.reduce(
+            (sum,batch) =>
+                sum + Number(batch.weight || 0),
+            0
+        );
+
+
+    const verifiedWeight =
+        verified.reduce(
+            (sum,batch) =>
+                sum + Number(batch.weight || 0),
+            0
+        );
+
+
+    document.getElementById(
+        "totalBatches"
+    ).textContent =
+        batches.length;
+
+
+    document.getElementById(
+        "verifiedBatches"
+    ).textContent =
+        verified.length;
+
+
+    document.getElementById(
+        "totalWeight"
+    ).textContent =
+        formatNumber(totalWeight) + " kg";
+
+
+    document.getElementById(
+        "verifiedWeight"
+    ).textContent =
+        formatNumber(verifiedWeight) + " kg";
+
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+function setFilter(filter) {
+
+    currentFilter = filter;
+
+
+    document
+        .querySelectorAll(".filter-button")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.filter === filter
+            );
+
+        });
+
+
+    renderBatchList();
+
+}
+
+
+/* =========================================================
+   RENDER BATCH LIST
+   ========================================================= */
+
+function renderBatchList() {
+
+    const container =
+        document.getElementById("batchList");
+
+
+    const batches =
+        getBatches();
+
+
+    let filtered =
+        batches;
+
+
+    if(currentFilter !== "all") {
+
+        filtered =
+            batches.filter(batch => {
+
+                const status =
+                    getBatchStatus(batch);
+
+                return status.toLowerCase() ===
+                    currentFilter.toLowerCase();
+
+            });
+
+    }
+
+
+    if(!filtered.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-customer"
+                 style="grid-column:1/-1;">
+
+                <div style="font-size:32px;">
+                    📦
+                </div>
+
+                <h3 style="
+                    color:#214a35;
+                    font-family:'Playfair Display',serif;
+                ">
+                    No batches found
+                </h3>
+
+                <p>
+                    There are no wool batches in this category yet.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        filtered
+            .slice()
+            .reverse()
+            .map(
+                batch => batchCard(batch)
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
+   BATCH CARD
+   ========================================================= */
+
+function batchCard(batch) {
+
+    const status =
+        getBatchStatus(batch);
+
+
+    const report =
+        batch.qualityReport || {};
+
+
+    const quality =
+        getQualityPercentage(batch);
+
+
+    const woolType =
+        report.woolType ||
+        getQualityValue(
+            batch,
+            "woolType"
+        ) ||
+        "Not specified";
+
+
+    const currentValue =
+        getCurrentValue(batch);
+
+
+    return `
+
+        <div class="batch-card"
+             onclick="selectBatch('${safeJs(batch.id)}')">
+
+            <div class="batch-card-top">
+
+                <div>
+
+                    <h3>
+                        ${escapeHtml(
+                            batch.batchName ||
+                            "Unnamed Wool Batch"
+                        )}
+                    </h3>
+
+                    <div class="batch-id">
+                        Batch ID:
+                        ${escapeHtml(batch.id || "-")}
+                    </div>
+
+                </div>
+
+
+                <span class="
+                    status-pill
+                    ${statusClass(status)}
+                ">
+                    ${escapeHtml(status)}
+                </span>
+
+            </div>
+
+
+            <div class="batch-card-grid">
+
+                ${batchCardItem(
+                    "Origin",
+                    batch.location || "-"
+                )}
+
+                ${batchCardItem(
+                    "Breed",
+                    batch.breed || "-"
+                )}
+
+                ${batchCardItem(
+                    "Weight",
+                    Number(batch.weight || 0) +
+                    " kg"
+                )}
+
+                ${batchCardItem(
+                    "Wool Type",
+                    woolType
+                )}
+
+                ${batchCardItem(
+                    "Quality",
+                    quality + "%"
+                )}
+
+                ${batchCardItem(
+                    "Current Value",
+                    formatCurrency(currentValue)
+                )}
+
+            </div>
+
+
+            <div class="f2w-batch-actions" onclick="event.stopPropagation()">
+<button type="button" data-batch-id="${escapeHtml(batch.id)}" onclick="f2wShowBatch(this.dataset.batchId,false)">View</button>
+<button type="button" data-batch-id="${escapeHtml(batch.id)}" onclick="f2wShowBatch(this.dataset.batchId,true)">QR</button>
+</div>
+<div class="batch-card-quality">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <span style="
+                        color:#7b8780;
+                        font-size:8px;
+                    ">
+                        Wool Quality
+                    </span>
+
+                    <strong style="
+                        color:#214a35;
+                        font-size:9px;
+                    ">
+                        ${quality}%
+                    </strong>
+
+                </div>
+
+
+                <div class="mini-progress">
+
+                    <div
+                        class="mini-progress-fill"
+                        style="width:${clamp(quality)}%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CARD ITEM
+   ========================================================= */
+
+function batchCardItem(label,value) {
+
+    return `
+
+        <div class="batch-card-item">
+
+            <span>
+                ${escapeHtml(label)}
+            </span>
+
+            <strong>
+                ${escapeHtml(value || "-")}
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SELECT BATCH
+   ========================================================= */
+
+function selectBatch(batchId) {
+
+    const input =
+        document.getElementById("batchSearch");
+
+
+    input.value =
+        batchId;
+
+
+    loadBatch(batchId);
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function searchBatch() {
+
+    const input =
+        document.getElementById(
+            "batchSearch"
+        ).value.trim();
+
+
+    if(!input) {
+
+        alert(
+            "Please enter a Batch ID."
+        );
+
+        return;
+
+    }
+
+
+    const batchId =
+        extractBatchId(input);
+
+
+    document.getElementById(
+        "batchSearch"
+    ).value =
+        batchId;
+
+
+    loadBatch(batchId);
+
+}
+
+
+/* =========================================================
+   EXTRACT BATCH ID
+   Supports:
+
+   1. F2W...
+   2. JSON QR
+   3. URL containing ?batch=...
+   4. encoded JSON
+   ========================================================= */
+
+function extractBatchId(input) {
+
+    let value =
+        String(input || "").trim();
+
+
+    /* URL */
+
+    try {
+
+        if(
+            value.startsWith("http://") ||
+            value.startsWith("https://")
+        ) {
+
+            const url =
+                new URL(value);
+
+
+            const batch =
+                url.searchParams.get(
+                    "batch"
+                );
+
+            if(batch) {
+                return batch;
+            }
+
+        }
+
+    }
+    catch(error) {}
+
+
+    /* JSON */
+
+    try {
+
+        let jsonText =
+            value;
+
+
+        if(
+            value.startsWith("%7B") ||
+            value.includes("%22")
+        ) {
+
+            jsonText =
+                decodeURIComponent(value);
+
+        }
+
+
+        if(
+            jsonText.startsWith("{")
+        ) {
+
+            const data =
+                JSON.parse(jsonText);
+
+
+            if(data.batchId) {
+
+                return String(
+                    data.batchId
+                ).trim();
+
+            }
+
+        }
+
+    }
+    catch(error) {}
+
+
+    return value;
+
+}
+
+
+/* =========================================================
+   LOAD BATCH
+   ========================================================= */
+
+function loadBatch(batchId) {
+
+    const batch =
+        findBatch(batchId);
+
+
+    if(!batch) {
+
+        document.getElementById(
+            "resultArea"
+        ).innerHTML = `
+
+            <div class="empty-customer">
+
+                <div style="font-size:35px;">
+                    ⚠️
+                </div>
+
+                <h3 style="
+                    color:#a63f3d;
+                    font-family:'Playfair Display',serif;
+                ">
+                    Batch not found
+                </h3>
+
+                <p>
+                    No Farm2Wool batch was found for
+                    <strong>
+                        ${escapeHtml(batchId)}
+                    </strong>.
+                </p>
+
+                <p style="
+                    font-size:9px;
+                    color:#9a6b68;
+                ">
+                    Make sure Farmer and Customer Portal
+                    are running in the same browser when
+                    using the localStorage prototype.
+                </p>
+
+            </div>
+
+        `;
+
+
+        document.getElementById(
+            "emptyState"
+        ).style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    renderBatch(batch);
+
+}
+
+
+/* =========================================================
+   RENDER SELECTED BATCH
+   ========================================================= */
+
+function renderBatch(batch) {
+
+    document.getElementById(
+        "emptyState"
+    ).style.display =
+        "none";
+
+
+    const q =
+        batch.qualityParameters || {};
+
+
+    const report =
+        batch.qualityReport || {};
+
+
+    const status =
+        getBatchStatus(batch);
+
+
+    const verification =
+        batch.verificationScore;
+
+
+    const qualityPercentage =
+        getQualityPercentage(batch);
+
+
+    const idealRate =
+        getIdealRate(batch);
+
+
+    const currentRate =
+        getCurrentRate(batch);
+
+
+    const idealValue =
+        getIdealValue(batch);
+
+
+    const currentValue =
+        getCurrentValue(batch);
+
+
+    const valueDifference =
+        idealValue - currentValue;
+
+
+    document.getElementById(
+        "resultArea"
+    ).innerHTML = `
+
+
+        <!-- =================================================
+             BASIC INFORMATION
+             ================================================= -->
+
+        <section class="customer-card">
+
+            <div class="product-header">
+
+                <div>
+
+                    <h2>
+                        ${escapeHtml(
+                            batch.batchName ||
+                            "Wool Batch"
+                        )}
+                    </h2>
+
+                    <p>
+                        Farm2Wool Batch ID:
+                        <strong>
+                            ${escapeHtml(
+                                batch.id || "-"
+                            )}
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <div class="verified">
+
+                    ${
+                        status === "Verified"
+                            ? "✓ QUALITY VERIFIED"
+                            : escapeHtml(
+                                status.toUpperCase()
+                            )
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-grid-customer">
+
+                ${summary(
+                    "Origin",
+                    batch.location
+                )}
+
+                ${summary(
+                    "Breed",
+                    batch.breed
+                )}
+
+                ${summary(
+                    "Weight",
+                    Number(batch.weight || 0) +
+                    " kg"
+                )}
+
+                ${summary(
+                    "Quality",
+                    qualityPercentage + "%"
+                )}
+
+                ${summary(
+                    "Current Stage",
+                    status
+                )}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             JOURNEY + DECLARED QUALITY
+             ================================================= -->
+
+        <div class="trace-grid">
+
+
+            <!-- JOURNEY -->
+
+            <section
+                class="customer-card"
+                id="journey">
+
+                <h2 class="section-title-customer">
+                    Complete Wool Journey
+                </h2>
+
+
+                <div class="timeline">
+
+
+                    ${timeline(
+                        true,
+                        "01",
+                        "Wool Registered",
+                        batch.collectionDate ||
+                        batch.createdAt,
+                        "Farmer registered the wool batch and declared its quality parameters."
+                    )}
+
+
+                    ${timeline(
+                        !!batch.purchasedAt ||
+                        String(
+                            batch.purchaseStatus || ""
+                        ).toLowerCase() === "purchased",
+                        "02",
+                        "Purchased by Manufacturer",
+                        formatDate(
+                            batch.purchasedAt
+                        ),
+                        batch.purchasedAt
+                            ? "The manufacturer purchased the wool batch."
+                            : "Waiting for manufacturer purchase."
+                    )}
+
+
+                    ${timeline(
+                        !!batch.inspectedAt ||
+                        !!batch.qualityReport,
+                        "03",
+                        "Physical Inspection",
+                        formatDate(
+                            batch.inspectedAt ||
+                            report.generatedAt
+                        ),
+                        batch.inspectedAt ||
+                        report.generatedAt
+                            ? "Manufacturer entered independent inspection values."
+                            : "Physical inspection has not yet been completed."
+                    )}
+
+
+                    ${timeline(
+                        status === "Verified",
+                        "04",
+                        "Quality Verification",
+                        status === "Verified"
+                            ? formatDate(
+                                report.generatedAt ||
+                                batch.inspectedAt
+                            )
+                            : "",
+                        status === "Verified"
+                            ? "The manufacturer verification passed the required matching threshold."
+                            : "Quality verification is pending."
+                    )}
+
+
+                    ${timeline(
+                        status === "Verified",
+                        "05",
+                        "Ready for Processing",
+                        status === "Verified"
+                            ? formatDate(
+                                report.generatedAt
+                            )
+                            : "",
+                        status === "Verified"
+                            ? "The verified wool is ready for processing."
+                            : "Processing begins after successful verification."
+                    )}
+
+                </div>
+
+            </section>
+
+
+
+            <!-- DECLARED PARAMETERS -->
+
+            <section class="customer-card">
+
+                <h2 class="section-title-customer">
+                    Registered Wool Parameters
+                </h2>
+
+
+                <div class="quality-customer-grid">
+
+                    ${quality(
+                        "Fibre Thickness",
+                        q.fibreThickness,
+                        "microns"
+                    )}
+
+                    ${quality(
+                        "Fibre Length",
+                        q.fibreLength,
+                        "mm"
+                    )}
+
+                    ${quality(
+                        "Moisture",
+                        q.moisture,
+                        "%"
+                    )}
+
+                    ${quality(
+                        "Cleanliness",
+                        q.cleanliness
+                    )}
+
+                    ${quality(
+                        "Grease / Lanolin",
+                        q.grease,
+                        "%"
+                    )}
+
+                    ${quality(
+                        "Wool Yield",
+                        q.yield,
+                        "%"
+                    )}
+
+                    ${quality(
+                        "Fibre Strength",
+                        q.strength,
+                        "N/ktex"
+                    )}
+
+                    ${quality(
+                        "Colour",
+                        q.colour
+                    )}
+
+                    ${quality(
+                        "Fibre Uniformity",
+                        q.uniformity
+                    )}
+
+                    ${quality(
+                        "Crimp",
+                        q.crimp
+                    )}
+
+                    ${quality(
+                        "Contamination",
+                        q.contamination
+                    )}
+
+                    ${quality(
+                        "Odour / Storage",
+                        q.odourStorage
+                    )}
+
+                    ${quality(
+                        "Pest / Damage",
+                        q.pestDamage
+                    )}
+
+                    ${quality(
+                        "Wool Type",
+                        q.woolType
+                    )}
+
+                    ${quality(
+                        "Shearing Condition",
+                        q.shearingCondition
+                    )}
+
+                    ${quality(
+                        "Lot Consistency",
+                        q.lotConsistency
+                    )}
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUALITY VERIFICATION + 16 RATING BARS
+             ================================================= -->
+
+        <section
+            class="customer-card"
+            id="quality">
+
+            <h2 class="section-title-customer">
+                Quality Verification & Market Value
+            </h2>
+
+
+            <div class="quality-report">
+
+
+                <div class="quality-score-box">
+
+                    <div class="quality-big-score">
+
+                        <strong>
+                            ${qualityPercentage}%
+                        </strong>
+
+                        <span>
+                            OVERALL WOOL QUALITY
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <p style="
+                            margin:0 0 8px;
+                            color:#405047;
+                            font-size:11px;
+                            line-height:1.6;
+                        ">
+
+                            This percentage is based on the
+                            quality analysis stored for this batch.
+
+                        </p>
+
+
+                        <p style="
+                            margin:0;
+                            color:#7b8780;
+                            font-size:9px;
+                        ">
+
+                            ${
+                                report.qualityPercentage != null
+                                    ? "Manufacturer quality report available."
+                                    : "Showing the registered farmer quality score until manufacturer verification is completed."
+                            }
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- 16 BARS -->
+
+                <h3 style="
+                    margin:0 0 15px;
+                    color:#214a35;
+                    font-family:'Playfair Display',serif;
+                    font-size:16px;
+                ">
+                    Parameter Quality Ratings
+                </h3>
+
+
+                <div class="rating-list">
+
+                    ${ratingBar(
+                        "Fibre Thickness",
+                        getParameterRating(
+                            report,
+                            "fibreThickness",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Fibre Length",
+                        getParameterRating(
+                            report,
+                            "fibreLength",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Moisture Content",
+                        getParameterRating(
+                            report,
+                            "moisture",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Cleanliness",
+                        getParameterRating(
+                            report,
+                            "cleanliness",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Grease / Lanolin",
+                        getParameterRating(
+                            report,
+                            "grease",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Wool Yield",
+                        getParameterRating(
+                            report,
+                            "yield",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Fibre Strength",
+                        getParameterRating(
+                            report,
+                            "strength",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Colour",
+                        getParameterRating(
+                            report,
+                            "colour",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Fibre Uniformity",
+                        getParameterRating(
+                            report,
+                            "uniformity",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Crimp",
+                        getParameterRating(
+                            report,
+                            "crimp",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Contamination",
+                        getParameterRating(
+                            report,
+                            "contamination",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Odour / Storage",
+                        getParameterRating(
+                            report,
+                            "odourStorage",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Pest / Damage",
+                        getParameterRating(
+                            report,
+                            "pestDamage",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Wool Type",
+                        getParameterRating(
+                            report,
+                            "woolType",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Shearing Condition",
+                        getParameterRating(
+                            report,
+                            "shearingCondition",
+                            batch
+                        )
+                    )}
+
+                    ${ratingBar(
+                        "Lot Consistency",
+                        getParameterRating(
+                            report,
+                            "lotConsistency",
+                            batch
+                        )
+                    )}
+
+                </div>
+
+
+
+                <!-- MARKET VALUE -->
+
+                <h3 style="
+                    margin:28px 0 0;
+                    color:#214a35;
+                    font-family:'Playfair Display',serif;
+                    font-size:16px;
+                ">
+                    Wool Market Value
+                </h3>
+
+
+                <div class="market-value-box">
+
+                    <div class="market-value-card">
+
+                        <span>
+                            IDEAL MARKET RATE
+                        </span>
+
+                        <strong>
+                            ${formatCurrency(
+                                idealRate
+                            )}
+                        </strong>
+
+                        <small>
+                            per kg
+                        </small>
+
+                    </div>
+
+
+                    <div class="market-value-card">
+
+                        <span>
+                            IDEAL BATCH VALUE
+                        </span>
+
+                        <strong>
+                            ${formatCurrency(
+                                idealValue
+                            )}
+                        </strong>
+
+                        <small>
+                            at ideal quality
+                        </small>
+
+                    </div>
+
+
+                    <div class="market-value-card">
+
+                        <span>
+                            CURRENT BATCH VALUE
+                        </span>
+
+                        <strong>
+                            ${formatCurrency(
+                                currentValue
+                            )}
+                        </strong>
+
+                        <small>
+                            based on current quality
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="value-difference">
+
+                    Value difference from ideal market condition:
+
+                    <strong>
+                        ${formatCurrency(
+                            Math.max(
+                                0,
+                                valueDifference
+                            )
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             MANUFACTURER VERIFICATION
+             ================================================= -->
+
+        <section class="customer-card">
+
+            <h2 class="section-title-customer">
+                Manufacturer Verification
+            </h2>
+
+
+            <div class="summary-grid-customer">
+
+                ${summary(
+                    "Farmer Declaration",
+                    (batch.qualityScore != null
+                        ? batch.qualityScore
+                        : qualityPercentage) + "%"
+                )}
+
+
+                ${summary(
+                    "Verification Match",
+                    verification != null
+                        ? verification + "%"
+                        : "Not completed"
+                )}
+
+
+                ${summary(
+                    "Inspection",
+                    batch.inspectionStatus ||
+                    "Not Started"
+                )}
+
+
+                ${summary(
+                    "Payment",
+                    batch.paymentStatus ||
+                    "Not Purchased"
+                )}
+
+
+                ${summary(
+                    "Return Status",
+                    batch.returnStatus ||
+                    "None"
+                )}
+
+            </div>
+
+
+
+            ${
+                report &&
+                Object.keys(report).length
+                ?
+
+                `
+
+                    <h3 style="
+                        color:#214a35;
+                        font-family:'Playfair Display',serif;
+                        margin-top:25px;
+                    ">
+                        Manufacturer Inspection Values
+                    </h3>
+
+
+                    <div class="quality-customer-grid">
+
+                        ${quality(
+                            "Fibre Thickness",
+                            getInspectionValue(
+                                report,
+                                "fibreThickness"
+                            ),
+                            "microns"
+                        )}
+
+                        ${quality(
+                            "Fibre Length",
+                            getInspectionValue(
+                                report,
+                                "fibreLength"
+                            ),
+                            "mm"
+                        )}
+
+                        ${quality(
+                            "Moisture",
+                            getInspectionValue(
+                                report,
+                                "moisture"
+                            ),
+                            "%"
+                        )}
+
+                        ${quality(
+                            "Cleanliness",
+                            getInspectionValue(
+                                report,
+                                "cleanliness"
+                            )
+                        )}
+
+                        ${quality(
+                            "Grease",
+                            getInspectionValue(
+                                report,
+                                "grease"
+                            ),
+                            "%"
+                        )}
+
+                        ${quality(
+                            "Yield",
+                            getInspectionValue(
+                                report,
+                                "yield"
+                            ),
+                            "%"
+                        )}
+
+                        ${quality(
+                            "Strength",
+                            getInspectionValue(
+                                report,
+                                "strength"
+                            ),
+                            "N/ktex"
+                        )}
+
+                        ${quality(
+                            "Colour",
+                            getInspectionValue(
+                                report,
+                                "colour"
+                            )
+                        )}
+
+                        ${quality(
+                            "Uniformity",
+                            getInspectionValue(
+                                report,
+                                "uniformity"
+                            )
+                        )}
+
+                        ${quality(
+                            "Crimp",
+                            getInspectionValue(
+                                report,
+                                "crimp"
+                            )
+                        )}
+
+                        ${quality(
+                            "Contamination",
+                            getInspectionValue(
+                                report,
+                                "contamination"
+                            )
+                        )}
+
+                        ${quality(
+                            "Odour / Storage",
+                            getInspectionValue(
+                                report,
+                                "odourStorage"
+                            )
+                        )}
+
+                        ${quality(
+                            "Pest / Damage",
+                            getInspectionValue(
+                                report,
+                                "pestDamage"
+                            )
+                        )}
+
+                        ${quality(
+                            "Wool Type",
+                            getInspectionValue(
+                                report,
+                                "woolType"
+                            )
+                        )}
+
+                        ${quality(
+                            "Shearing Condition",
+                            getInspectionValue(
+                                report,
+                                "shearingCondition"
+                            )
+                        )}
+
+                        ${quality(
+                            "Lot Consistency",
+                            getInspectionValue(
+                                report,
+                                "lotConsistency"
+                            )
+                        )}
+
+                    </div>
+
+                `
+
+                :
+
+                `
+
+                    <p style="
+                        color:#7b8780;
+                        font-size:11px;
+                        margin-top:20px;
+                    ">
+                        Manufacturer inspection has not been
+                        completed yet.
+                    </p>
+
+                `
+            }
+
+        </section>
+
+
+
+        <!-- =================================================
+             QR
+             ================================================= -->
+
+        <section class="customer-card">
+
+            <h2 class="section-title-customer">
+                Batch QR Code
+            </h2>
+
+
+            <div class="qr-customer">
+
+                <img
+                    src="${createQR(batch)}"
+                    alt="Farm2Wool QR Code"
+                    onerror="
+                        this.style.display='none';
+                        document.getElementById('qrError').style.display='block';
+                    "
+                >
+
+
+                <div id="qrError"
+                     style="
+                        display:none;
+                        padding:20px;
+                        color:#a63f3d;
+                        font-size:11px;
+                     ">
+
+                    QR image could not be loaded.
+                    Check your internet connection.
+
+                </div>
+
+
+                <p style="
+                    color:#7b8780;
+                    font-size:10px;
+                ">
+                    Batch ID:
+                    ${escapeHtml(batch.id)}
+                </p>
+
+            </div>
+
+        </section>
+
+    `;
+
+
+    /* Scroll selected batch into view */
+
+    setTimeout(() => {
+
+        const result =
+            document.getElementById(
+                "resultArea"
+            );
+
+        if(result) {
+
+            result.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        }
+
+    },50);
+
+}
+
+
+/* =========================================================
+   QUALITY PERCENTAGE
+   ========================================================= */
+
+function getQualityPercentage(batch) {
+
+    const report =
+        batch.qualityReport || {};
+
+
+    if(
+        report.qualityPercentage != null &&
+        !isNaN(Number(
+            report.qualityPercentage
+        ))
+    ) {
+
+        return round(
+            Number(
+                report.qualityPercentage
+            )
+        );
+
+    }
+
+
+    if(
+        batch.qualityScore != null &&
+        !isNaN(Number(
+            batch.qualityScore
+        ))
+    ) {
+
+        return round(
+            Number(
+                batch.qualityScore
+            )
+        );
+
+    }
+
+
+    if(
+        batch.verificationScore != null &&
+        !isNaN(Number(
+            batch.verificationScore
+        ))
+    ) {
+
+        return round(
+            Number(
+                batch.verificationScore
+            )
+        );
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =========================================================
+   IDEAL RATE
+   ========================================================= */
+
+function getIdealRate(batch) {
+
+    const report =
+        batch.qualityReport || {};
+
+
+    if(
+        report.idealMarketRate != null &&
+        !isNaN(
+            Number(report.idealMarketRate)
+        )
+    ) {
+
+        return Number(
+            report.idealMarketRate
+        );
+
+    }
+
+
+    const woolType =
+        report.woolType ||
+        getQualityValue(
+            batch,
+            "woolType"
+        ) ||
+        "Medium Wool";
+
+
+    return MARKET_RATES[woolType] ||
+           MARKET_RATES["Medium Wool"];
+
+}
+
+
+/* =========================================================
+   CURRENT RATE
+   ========================================================= */
+
+function getCurrentRate(batch) {
+
+    const report =
+        batch.qualityReport || {};
+
+
+    if(
+        report.currentMarketRate != null &&
+        !isNaN(
+            Number(report.currentMarketRate)
+        )
+    ) {
+
+        return Number(
+            report.currentMarketRate
+        );
+
+    }
+
+
+    const idealRate =
+        getIdealRate(batch);
+
+
+    const quality =
+        getQualityPercentage(batch);
+
+
+    return idealRate *
+        quality /
+        100;
+
+}
+
+
+/* =========================================================
+   IDEAL VALUE
+   ========================================================= */
+
+function getIdealValue(batch) {
+
+    const report =
+        batch.qualityReport || {};
+
+
+    if(
+        report.idealMarketValue != null &&
+        !isNaN(
+            Number(report.idealMarketValue)
+        )
+    ) {
+
+        return Number(
+            report.idealMarketValue
+        );
+
+    }
+
+
+    return Number(batch.weight || 0) *
+           getIdealRate(batch);
+
+}
+
+
+/* =========================================================
+   CURRENT VALUE
+   ========================================================= */
+
+function getCurrentValue(batch) {
+
+    const report =
+        batch.qualityReport || {};
+
+
+    if(
+        report.currentBatchValue != null &&
+        !isNaN(
+            Number(report.currentBatchValue)
+        )
+    ) {
+
+        return Number(
+            report.currentBatchValue
+        );
+
+    }
+
+
+    return Number(batch.weight || 0) *
+           getCurrentRate(batch);
+
+}
+
+
+/* =========================================================
+   QUALITY PARAMETER VALUE
+   ========================================================= */
+
+function getQualityValue(
+    batch,
+    key
+) {
+
+    const q =
+        batch.qualityParameters || {};
+
+
+    return q[key] ?? "";
+
+}
+
+
+/* =========================================================
+   GET PARAMETER RATING
+   ========================================================= */
+
+function getParameterRating(
+    report,
+    key,
+    batch
+) {
+
+    const ratings =
+        report.parameterRatings || {};
+
+
+    let value =
+        ratings[key];
+
+
+    if(value == null) {
+
+        /* Some versions may use labels */
+
+        const alternativeNames = {
+
+            fibreThickness:
+                "Fibre Thickness",
+
+            fibreLength:
+                "Fibre Length",
+
+            moisture:
+                "Moisture Content",
+
+            cleanliness:
+                "Cleanliness",
+
+            grease:
+                "Grease / Lanolin",
+
+            yield:
+                "Wool Yield",
+
+            strength:
+                "Fibre Strength",
+
+            colour:
+                "Colour",
+
+            uniformity:
+                "Fibre Uniformity",
+
+            crimp:
+                "Crimp",
+
+            contamination:
+                "Contamination",
+
+            odourStorage:
+                "Odour / Storage",
+
+            pestDamage:
+                "Pest / Damage",
+
+            woolType:
+                "Wool Type",
+
+            shearingCondition:
+                "Shearing Condition",
+
+            lotConsistency:
+                "Lot Consistency"
+
+        };
+
+
+        value =
+            ratings[
+                alternativeNames[key]
+            ];
+
+    }
+
+
+    if(value != null) {
+
+        return clamp(
+            Number(value)
+        );
+
+    }
+
+
+    /*
+       If manufacturer report is not available,
+       generate a display rating from the farmer
+       declaration.
+    */
+
+    return calculateFallbackRating(
+        key,
+        getQualityValue(
+            batch,
+            key
+        )
+    );
+
+}
+
+
+/* =========================================================
+   FALLBACK RATINGS
+   ========================================================= */
+
+function calculateFallbackRating(
+    key,
+    value
+) {
+
+    if(
+        value === "" ||
+        value == null
+    ) {
+        return 0;
+    }
+
+
+    const number =
+        Number(value);
+
+
+    switch(key) {
+
+        case "fibreThickness":
+
+            if(number >= 18 && number <= 24)
+                return 100;
+
+            if(number >= 16 && number <= 26)
+                return 80;
+
+            if(number >= 14 && number <= 28)
+                return 60;
+
+            return 40;
+
+
+        case "fibreLength":
+
+            if(number >= 60 && number <= 100)
+                return 100;
+
+            if(number >= 50 && number <= 110)
+                return 80;
+
+            if(number >= 40 && number <= 120)
+                return 60;
+
+            return 40;
+
+
+        case "moisture":
+
+            if(number >= 8 && number <= 16)
+                return 100;
+
+            if(number >= 6 && number <= 20)
+                return 80;
+
+            if(number <= 25)
+                return 60;
+
+            return 30;
+
+
+        case "grease":
+
+            if(number >= 8 && number <= 20)
+                return 100;
+
+            if(number >= 5 && number <= 25)
+                return 80;
+
+            if(number <= 30)
+                return 60;
+
+            return 30;
+
+
+        case "yield":
+
+            if(number >= 55 && number <= 75)
+                return 100;
+
+            if(number >= 45 && number <= 80)
+                return 80;
+
+            if(number >= 35 && number <= 85)
+                return 60;
+
+            return 40;
+
+
+        case "strength":
+
+            if(number >= 25 && number <= 45)
+                return 100;
+
+            if(number >= 20 && number <= 50)
+                return 80;
+
+            if(number >= 15 && number <= 55)
+                return 60;
+
+            return 40;
+
+    }
+
+
+    const normalized =
+        String(value)
+            .trim()
+            .toLowerCase();
+
+
+    const ratings = {
+
+        "excellent": 100,
+
+        "high": 100,
+
+        "bright white": 100,
+
+        "none": 100,
+
+        "fine wool": 100,
+
+
+        "good": 85,
+
+        "medium": 85,
+
+        "white": 95,
+
+        "low": 85,
+
+        "minor": 75,
+
+        "medium wool": 90,
+
+
+        "average": 65,
+
+        "cream": 80,
+
+        "coarse wool": 75,
+
+        "mixed wool": 65,
+
+
+        "poor": 40,
+
+        "brown": 45,
+
+        "grey": 60,
+
+        "black": 35,
+
+        "moderate": 45,
+
+        "severe": 20
+
+    };
+
+
+    return ratings[normalized] ?? 60;
+
+}
+
+
+/* =========================================================
+   RATING BAR
+   ========================================================= */
+
+function ratingBar(
+    name,
+    value
+) {
+
+    const rating =
+        clamp(
+            Number(value || 0)
+        );
+
+
+    let fillClass = "";
+
+
+    if(rating < 50) {
+
+        fillClass = "low";
+
+    }
+    else if(rating < 75) {
+
+        fillClass = "medium";
+
+    }
+
+
+    return `
+
+        <div class="rating-row">
+
+            <div class="rating-head">
+
+                <span class="rating-name">
+                    ${escapeHtml(name)}
+                </span>
+
+                <span class="rating-value">
+                    ${rating}%
+                </span>
+
+            </div>
+
+
+            <div class="rating-bar">
+
+                <div
+                    class="
+                        rating-fill
+                        ${fillClass}
+                    "
+                    style="
+                        width:${rating}%;
+                    "
+                ></div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   INSPECTION VALUE
+   ========================================================= */
+
+function getInspectionValue(
+    report,
+    key
+) {
+
+    const inspected =
+        report.inspectedValues ||
+        report.inspection ||
+        {};
+
+
+    if(
+        inspected[key] != null
+    ) {
+
+        return inspected[key];
+
+    }
+
+
+    /*
+       Compatibility with versions where
+       values were saved directly inside qualityReport.
+    */
+
+    if(
+        report[key] != null
+    ) {
+
+        return report[key];
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+function summary(
+    name,
+    value
+) {
+
+    return `
+
+        <div class="summary-item-customer">
+
+            <span>
+                ${escapeHtml(name)}
+            </span>
+
+            <strong>
+                ${escapeHtml(
+                    value == null ||
+                    value === ""
+                        ? "-"
+                        : String(value)
+                )}
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   QUALITY
+   ========================================================= */
+
+function quality(
+    name,
+    value,
+    unit = ""
+) {
+
+    let display =
+        value == null ||
+        value === ""
+            ? "-"
+            : String(value);
+
+
+    if(
+        display !== "-" &&
+        unit
+    ) {
+
+        display +=
+            " " + unit;
+
+    }
+
+
+    return `
+
+        <div class="quality-customer-item">
+
+            <span>
+                ${escapeHtml(name)}
+            </span>
+
+            <strong>
+                ${escapeHtml(display)}
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   TIMELINE
+   ========================================================= */
+
+function timeline(
+    done,
+    number,
+    title,
+    date,
+    description
+) {
+
+    return `
+
+        <div class="
+            timeline-item
+            ${done ? "done" : ""}
+            ${
+                done &&
+                number === "04"
+                    ? "current"
+                    : ""
+            }
+        ">
+
+            <div class="timeline-dot"></div>
+
+            <h3>
+                ${number}.
+                ${escapeHtml(title)}
+            </h3>
+
+            <small>
+                ${escapeHtml(
+                    date || "Pending"
+                )}
+            </small>
+
+            <p>
+                ${escapeHtml(
+                    description
+                )}
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   QR GENERATOR
+   ========================================================= */
+
+function buildQRPayload(batch) { return f2wQRText(batch); }
+
+function createQR(batch) { return f2wQRUrl(batch); }
+
+/* =========================================================
+   QR SCANNER
+   ========================================================= */
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+function formatDate(date) {
+
+    if(!date) {
+        return "";
+    }
+
+
+    const d =
+        new Date(date);
+
+
+    if(isNaN(d)) {
+        return String(date);
+    }
+
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+function formatCurrency(value) {
+
+    const number =
+        Number(value || 0);
+
+
+    return "₹" +
+        number.toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits: 0
+            }
+        );
+
+}
+
+
+/* =========================================================
+   NUMBER
+   ========================================================= */
+
+function formatNumber(value) {
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "en-IN",
+        {
+            maximumFractionDigits: 2
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ROUND
+   ========================================================= */
+
+function round(value) {
+
+    return Math.round(
+        Number(value || 0) * 10
+    ) / 10;
+
+}
+
+
+/* =========================================================
+   CLAMP
+   ========================================================= */
+
+function clamp(value) {
+
+    return Math.max(
+        0,
+        Math.min(
+            100,
+            Number(value || 0)
+        )
+    );
+
+}
+
+
+/* =========================================================
+   SAFE JAVASCRIPT STRING
+   ========================================================= */
+
+function safeJs(value) {
+
+    return String(value || "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,'\\"');
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   AUTOMATIC QR / URL SUPPORT
+   ========================================================= */
+
+(function() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const batchId =
+        params.get("batch");
+
+
+    if(batchId) {
+
+        document.getElementById(
+            "batchSearch"
+        ).value =
+            batchId;
+
+
+        loadBatch(batchId);
+
+    }
+
+})();
+
+
+/* =========================================================
+   AUTO LOAD ALL BATCHES
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        refreshBatchList();
+
+    }
+);
+
+
+/* =========================================================
+   STORAGE EVENT
+   =========================================================
+
+   If Farmer or Manufacturer modifies
+   localStorage from another browser tab,
+   Customer Portal updates automatically.
+   ========================================================= */
+
+window.addEventListener(
+    "storage",
+    function(event) {
+
+        if(
+            event.key === STORAGE_KEY
+        ) {
+
+            refreshBatchList();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   AUTO REFRESH
+
+   Useful while testing Farmer ->
+   Manufacturer -> Customer.
+   ========================================================= */
+
+setInterval(
+    function() {
+
+        refreshBatchList();
+
+    },
+    3000
+);
+
+</script>
+
+</body>
+</html>

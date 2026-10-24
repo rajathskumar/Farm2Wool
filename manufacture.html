@@ -1,0 +1,4907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Farm2Wool | Manufacturer Portal</title>
+
+<style>
+
+/* =========================================================
+   FARM2WOOL MANUFACTURER PORTAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: #f4f7f4;
+    color: #26352d;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.manufacturer-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background: #173d2b;
+    color: white;
+    padding: 24px 18px;
+    z-index: 3000;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 10px 22px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,.10);
+    font-size: 21px;
+}
+
+.brand-name {
+    font-family: Georgia, serif;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.brand-sub {
+    display: block;
+    margin-top: 3px;
+    color: #a9c0b0;
+    font-size: 9px;
+}
+
+.nav-title {
+    margin: 26px 10px 10px;
+    color: #89a493;
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px;
+    margin-bottom: 5px;
+    border-radius: 9px;
+    color: #d8e4dc;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: rgba(255,255,255,.10);
+    color: white;
+}
+
+.nav-icon {
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-info {
+    margin-top: 30px;
+    padding: 15px 10px;
+    border-top: 1px solid rgba(255,255,255,.10);
+    color: #a9bdb0;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.sidebar-info strong {
+    color: white;
+}
+
+.sidebar-info a {
+    color: white;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main {
+    margin-left: 250px;
+    min-height: 100vh;
+    padding: 24px 30px 50px;
+}
+
+/* =========================================================
+   DAILY PRICE TICKER
+   ========================================================= */
+
+.price-ticker {
+    height: 42px;
+    background: #214a35;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: white;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.ticker-label {
+    flex: 0 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background: #153523;
+    font-size: 10px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.ticker-window {
+    overflow: hidden;
+    flex: 1;
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tickerMove 28s linear infinite;
+}
+
+.ticker-item {
+    padding: 0 30px;
+    white-space: nowrap;
+    font-size: 10px;
+}
+
+.ticker-item strong {
+    color: #d7efd9;
+}
+
+@keyframes tickerMove {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-title h1 {
+    margin: 0;
+    color: #214a35;
+    font-family: Georgia, serif;
+    font-size: 30px;
+}
+
+.page-title p {
+    margin: 5px 0 0;
+    color: #738078;
+    font-size: 12px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 13px 7px 7px;
+    background: white;
+    border: 1px solid #dce5de;
+    border-radius: 30px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e8f0e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.stat {
+    background: white;
+    border: 1px solid #dce5de;
+    border-radius: 14px;
+    padding: 17px;
+}
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #e9f1eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat strong {
+    display: block;
+    margin-top: 12px;
+    color: #214a35;
+    font-size: 22px;
+}
+
+.stat span {
+    color: #7a857e;
+    font-size: 9px;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.card {
+    background: white;
+    border: 1px solid #dce5de;
+    border-radius: 15px;
+    padding: 21px;
+    margin-bottom: 20px;
+}
+
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 17px;
+}
+
+.card-head h2 {
+    margin: 0;
+    color: #214a35;
+    font-family: Georgia, serif;
+    font-size: 20px;
+}
+
+.muted {
+    color: #7b8780;
+    font-size: 10px;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.search-row input,
+.search-row select {
+    padding: 11px;
+    border: 1px solid #dce5de;
+    border-radius: 8px;
+    background: #fbfcfb;
+    outline: none;
+    font-size: 11px;
+}
+
+.search-row input {
+    flex: 1;
+}
+
+.search-row input:focus,
+.search-row select:focus,
+.inspection-field input:focus,
+.inspection-field select:focus {
+    border-color: #315c43;
+    box-shadow: 0 0 0 2px rgba(49,92,67,.08);
+}
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 15px;
+}
+
+.market-card {
+    border: 1px solid #dce5de;
+    border-radius: 13px;
+    padding: 16px;
+    background: white;
+}
+
+.market-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.market-id {
+    color: #315c43;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.market-card h3 {
+    margin: 4px 0 12px;
+    color: #214a35;
+    font-family: Georgia, serif;
+    font-size: 17px;
+}
+
+.status-pill {
+    height: max-content;
+    padding: 5px 8px;
+    border-radius: 15px;
+    background: #e9f1eb;
+    color: #315c43;
+    font-size: 8px;
+    font-weight: bold;
+}
+
+.market-data {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.market-data div {
+    padding: 8px;
+    background: #f6f9f6;
+    border-radius: 7px;
+}
+
+.market-data small {
+    display: block;
+    color: #7b8780;
+    font-size: 8px;
+    margin-bottom: 3px;
+}
+
+.market-data strong {
+    font-size: 10px;
+}
+
+.actions {
+    display: flex;
+    gap: 7px;
+    margin-top: 13px;
+}
+
+.actions button {
+    flex: 1;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 10px;
+    font-weight: bold;
+    transition: .15s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: #315c43;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #214a35;
+}
+
+.btn-secondary {
+    background: #e9f1eb;
+    color: #315c43;
+}
+
+.btn-danger {
+    background: #fbeaea;
+    color: #a63f3d;
+}
+
+.btn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =========================================================
+   VERIFICATION INFO
+   ========================================================= */
+
+.info-box {
+    padding: 15px;
+    background: #f0f7f2;
+    border: 1px solid #dce9df;
+    border-radius: 10px;
+    color: #54705d;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(20,35,27,.62);
+    z-index: 5000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(850px,100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 24px;
+    background: white;
+    border-radius: 17px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #dce5de;
+}
+
+.modal-head h2 {
+    margin: 0;
+    color: #214a35;
+    font-family: Georgia, serif;
+}
+
+.close-btn {
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #edf2ee;
+    color: #315c43;
+    font-size: 20px;
+}
+
+/* =========================================================
+   INSPECTION FORM
+   ========================================================= */
+
+.batch-info {
+    margin-bottom: 18px;
+    padding: 13px;
+    background: #f7f9f7;
+    border-radius: 9px;
+    font-size: 11px;
+}
+
+.inspection-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 14px;
+}
+
+.inspection-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.inspection-field label {
+    color: #34443a;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.inspection-field input,
+.inspection-field select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #dce5de;
+    border-radius: 8px;
+    background: #fbfcfb;
+    outline: none;
+    font-size: 11px;
+}
+
+.error-field {
+    border-color: #c74b47 !important;
+    background: #fff7f7 !important;
+}
+
+.form-error {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: #fff1f1;
+    border: 1px solid #f1cccc;
+    border-radius: 9px;
+    color: #a63f3d;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.form-error.show {
+    display: block;
+}
+
+/* =========================================================
+   RESULT
+   ========================================================= */
+
+.result-box {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f1f7f2;
+    border: 1px solid #dce9df;
+}
+
+.result-box.success {
+    background: #eef9f0;
+    border-color: #b9ddc0;
+}
+
+.result-box.failure {
+    background: #fff3f3;
+    border-color: #efc3c3;
+}
+
+.result-title {
+    color: #214a35;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.failure .result-title {
+    color: #a63f3d;
+}
+
+/* =========================================================
+   SCORE CARDS
+   ========================================================= */
+
+.score-summary {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.score-card {
+    padding: 13px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #dce5de;
+}
+
+.score-card small {
+    display: block;
+    color: #7b8780;
+    font-size: 8px;
+    margin-bottom: 5px;
+}
+
+.score-card strong {
+    color: #214a35;
+    font-size: 19px;
+}
+
+/* =========================================================
+   QUALITY REPORT
+   ========================================================= */
+
+.quality-report {
+    display: none;
+    margin-top: 18px;
+    border-top: 1px solid #dce5de;
+    padding-top: 18px;
+}
+
+.quality-report.show {
+    display: block;
+}
+
+.quality-report h3 {
+    margin: 0 0 13px;
+    color: #214a35;
+    font-family: Georgia, serif;
+    font-size: 17px;
+}
+
+.rating-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 18px;
+}
+
+.rating-row {
+    padding: 10px;
+    background: #f7f9f7;
+    border-radius: 9px;
+}
+
+.rating-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.rating-name {
+    font-size: 9px;
+    font-weight: bold;
+    color: #34443a;
+}
+
+.rating-value {
+    font-size: 9px;
+    font-weight: bold;
+    color: #315c43;
+}
+
+.rating-track {
+    width: 100%;
+    height: 8px;
+    background: #dfe7e1;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rating-fill {
+    height: 100%;
+    width: 0%;
+    background: #315c43;
+    border-radius: 10px;
+    transition: width .5s ease;
+}
+
+/* =========================================================
+   MARKET VALUE
+   ========================================================= */
+
+.value-section {
+    margin-top: 20px;
+}
+
+.value-section h3 {
+    margin: 0 0 12px;
+    color: #214a35;
+    font-family: Georgia, serif;
+    font-size: 17px;
+}
+
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+}
+
+.value-card {
+    padding: 14px;
+    background: white;
+    border: 1px solid #dce5de;
+    border-radius: 10px;
+}
+
+.value-card small {
+    display: block;
+    color: #7b8780;
+    font-size: 8px;
+    margin-bottom: 6px;
+}
+
+.value-card strong {
+    display: block;
+    color: #214a35;
+    font-size: 17px;
+}
+
+.value-card span {
+    display: block;
+    margin-top: 4px;
+    color: #7b8780;
+    font-size: 8px;
+}
+
+.value-note {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f6f9f6;
+    border-radius: 8px;
+    color: #6c7971;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   MODAL FOOTER
+   ========================================================= */
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1100px) {
+
+    .stats {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .value-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px) {
+
+    .manufacturer-sidebar {
+        width: 70px;
+        padding: 20px 8px;
+    }
+
+    .brand > div:last-child,
+    .nav-title,
+    .nav a span:not(.nav-icon),
+    .sidebar-info {
+        display: none;
+    }
+
+    .nav a {
+        justify-content: center;
+    }
+
+    .main {
+        margin-left: 70px;
+        padding: 18px;
+    }
+
+    .stats,
+    .grid,
+    .inspection-grid,
+    .rating-list,
+    .value-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .page-title h1 {
+        font-size: 23px;
+    }
+
+    .score-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+
+.qr-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,35,24,.68);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 6000;
+}
+.qr-modal-box {
+    width: min(470px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+.qr-modal-box h2 { margin: 7px 0; color: #214a35; font-family: Georgia,serif; }
+.qr-modal-box p { margin: 0 0 16px; color: #718078; font-size: 11px; }
+.qr-modal-close {
+    position:absolute; right:15px; top:13px; width:34px; height:34px;
+    border:0; border-radius:50%; background:#f0f3f0; font-size:20px; color:#26352d;
+}
+.manufacturer-qr-image-wrap {
+    width: 330px; height: 330px; max-width: 100%; margin: 12px auto;
+    border: 1px solid #dfe7e1; border-radius: 14px; padding: 10px; background:#fff;
+}
+.manufacturer-qr-image-wrap img { width:100%; height:100%; object-fit:contain; }
+.qr-modal-note { margin-top:12px; padding:11px; background:#f2f7f3; border-radius:10px; color:#647169; font-size:10px; line-height:1.6; }
+</style>
+<link rel="stylesheet" href="auth.css">
+<script src="auth.js" defer></script>
+<link rel="stylesheet" href="style.css">
+<script src="batch-details.js"></script>
+</head>
+
+
+<body data-f2w-portal="manufacturer">
+
+<!-- =======================================================
+     SIDEBAR
+     ======================================================= -->
+
+<aside class="manufacturer-sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🏭
+        </div>
+
+        <div>
+            <div class="brand-name">
+                Farm2Wool
+            </div>
+
+            <span class="brand-sub">
+                Traceability Platform
+            </span>
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        MANUFACTURER PORTAL
+    </div>
+
+
+    <nav class="nav">
+
+        <a href="#marketplace" class="active">
+            <span class="nav-icon">▣</span>
+            <span>Marketplace</span>
+        </a>
+
+        <a href="#purchases">
+            <span class="nav-icon">🛒</span>
+            <span>Purchases</span>
+        </a>
+
+        <a href="#verification">
+            <span class="nav-icon">✓</span>
+            <span>Verification</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-info">
+
+        <strong>Manufacturer</strong>
+
+        <br>
+
+        Browse, purchase and independently inspect farmer wool.
+
+        <br><br>
+
+        <a href="index.html">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
+<main class="main">
+
+
+    <!-- DAILY WOOL PRICE TICKER -->
+
+    <div class="price-ticker">
+
+        <div class="ticker-label">
+            DAILY WOOL PRICES
+        </div>
+
+        <div class="ticker-window">
+
+            <div class="ticker-track">
+
+                <div class="ticker-item">
+                    Fine Wool:
+                    <strong>₹650/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Medium Wool:
+                    <strong>₹500/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Coarse Wool:
+                    <strong>₹380/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Mixed Wool:
+                    <strong>₹440/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Premium Quality:
+                    <strong>up to ₹650/kg</strong>
+                </div>
+
+
+                <!-- DUPLICATE FOR CONTINUOUS ANIMATION -->
+
+                <div class="ticker-item">
+                    Fine Wool:
+                    <strong>₹650/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Medium Wool:
+                    <strong>₹500/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Coarse Wool:
+                    <strong>₹380/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Mixed Wool:
+                    <strong>₹440/kg</strong>
+                </div>
+
+                <div class="ticker-item">
+                    Premium Quality:
+                    <strong>up to ₹650/kg</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div class="page-title">
+
+            <h1>
+                Manufacturer Dashboard
+            </h1>
+
+            <p>
+                Purchase and independently verify farmer wool batches.
+            </p>
+
+        </div>
+
+
+        <div class="user">
+
+            <div class="avatar">
+                🏭
+            </div>
+
+            <strong>
+                Manufacturer
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         STATS
+         =================================================== -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ▣
+            </div>
+
+            <strong id="availableCount">
+                0
+            </strong>
+
+            <span>
+                Available Batches
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🛒
+            </div>
+
+            <strong id="purchasedCount">
+                0
+            </strong>
+
+            <span>
+                Purchased
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🔍
+            </div>
+
+            <strong id="pendingCount">
+                0
+            </strong>
+
+            <span>
+                Inspection Pending
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <strong id="verifiedCount">
+                0
+            </strong>
+
+            <span>
+                Verified
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ⚖
+            </div>
+
+            <strong id="totalWool">
+                0 kg
+            </strong>
+
+            <span>
+                Purchased Wool
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         MARKETPLACE
+         =================================================== -->
+
+    <section class="card" id="marketplace">
+
+        <div class="card-head">
+
+            <h2>
+                Wool Marketplace
+            </h2>
+
+            <span class="muted">
+                Farmer registered batches
+            </span>
+
+        </div>
+
+
+        <div class="search-row">
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search Batch ID, name, breed or location..."
+            >
+
+
+            <select id="statusFilter">
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="available">
+                    Available
+                </option>
+
+                <option value="purchased">
+                    Purchased
+                </option>
+
+                <option value="inspection">
+                    Inspection Pending
+                </option>
+
+                <option value="verified">
+                    Verified
+                </option>
+
+                <option value="returned">
+                    Returned
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div
+            id="marketplaceGrid"
+            class="grid">
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PURCHASES
+         =================================================== -->
+
+    <section class="card" id="purchases">
+
+        <div class="card-head">
+
+            <h2>
+                My Purchases
+            </h2>
+
+            <span class="muted">
+                Purchased farmer wool
+            </span>
+
+        </div>
+
+
+        <div
+            id="purchaseGrid"
+            class="grid">
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         VERIFICATION
+         =================================================== -->
+
+    <section class="card" id="verification">
+
+        <div class="card-head">
+
+            <h2>
+                Verification Workflow
+            </h2>
+
+            <span class="muted">
+                Independent manufacturer inspection
+            </span>
+
+        </div>
+
+
+        <div class="info-box">
+
+            After purchasing a batch, click
+            <strong>Inspect</strong> and enter the physical
+            inspection values.
+
+            <br><br>
+
+            Farm2Wool compares the manufacturer's inspection
+            against the farmer declaration and also calculates
+            a separate wool-quality percentage using all 16
+            quality parameters.
+
+            <br><br>
+
+            <strong>
+                Verification threshold:
+            </strong>
+
+            85% parameter match.
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =======================================================
+     INSPECTION MODAL
+     ======================================================= -->
+
+<div
+    id="inspectionModal"
+    class="modal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-head">
+
+            <h2>
+                Independent Wool Inspection
+            </h2>
+
+            <button
+                class="close-btn"
+                type="button"
+                onclick="closeInspection()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- BATCH INFORMATION -->
+
+        <div
+            id="inspectionBatchInfo"
+            class="batch-info">
+        </div>
+
+
+        <!-- 16 PARAMETERS -->
+
+        <div class="inspection-grid">
+
+
+            <!-- 01 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    01 Fibre Thickness / Micron
+                </label>
+
+                <input
+                    id="i_fibreThickness"
+                    type="number"
+                    min="1"
+                    step="0.1"
+                    placeholder="e.g. 20.5"
+                >
+
+            </div>
+
+
+            <!-- 02 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    02 Fibre Length (mm)
+                </label>
+
+                <input
+                    id="i_fibreLength"
+                    type="number"
+                    min="1"
+                    step="0.1"
+                    placeholder="e.g. 85"
+                >
+
+            </div>
+
+
+            <!-- 03 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    03 Moisture Content (%)
+                </label>
+
+                <input
+                    id="i_moisture"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    placeholder="e.g. 12"
+                >
+
+            </div>
+
+
+            <!-- 04 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    04 Cleanliness
+                </label>
+
+                <select id="i_cleanliness">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Excellent">
+                        Excellent
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Average">
+                        Average
+                    </option>
+
+                    <option value="Poor">
+                        Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 05 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    05 Grease / Lanolin (%)
+                </label>
+
+                <input
+                    id="i_grease"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    placeholder="e.g. 15"
+                >
+
+            </div>
+
+
+            <!-- 06 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    06 Wool Yield (%)
+                </label>
+
+                <input
+                    id="i_yield"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    placeholder="e.g. 65"
+                >
+
+            </div>
+
+
+            <!-- 07 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    07 Fibre Strength (N/ktex)
+                </label>
+
+                <input
+                    id="i_strength"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    placeholder="e.g. 33"
+                >
+
+            </div>
+
+
+            <!-- 08 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    08 Colour
+                </label>
+
+                <select id="i_colour">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Bright White">
+                        Bright White
+                    </option>
+
+                    <option value="White">
+                        White
+                    </option>
+
+                    <option value="Cream">
+                        Cream
+                    </option>
+
+                    <option value="Grey">
+                        Grey
+                    </option>
+
+                    <option value="Brown">
+                        Brown
+                    </option>
+
+                    <option value="Black">
+                        Black
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 09 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    09 Fibre Uniformity
+                </label>
+
+                <select id="i_uniformity">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Excellent">
+                        Excellent
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Average">
+                        Average
+                    </option>
+
+                    <option value="Poor">
+                        Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 10 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    10 Crimp
+                </label>
+
+                <select id="i_crimp">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                    <option value="Medium">
+                        Medium
+                    </option>
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 11 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    11 Contamination
+                </label>
+
+                <select id="i_contamination">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="None">
+                        None
+                    </option>
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                    <option value="Medium">
+                        Medium
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 12 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    12 Odour / Storage Condition
+                </label>
+
+                <select id="i_odourStorage">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Excellent">
+                        Excellent
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Average">
+                        Average
+                    </option>
+
+                    <option value="Poor">
+                        Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 13 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    13 Pest / Damage Condition
+                </label>
+
+                <select id="i_pestDamage">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="None">
+                        None
+                    </option>
+
+                    <option value="Minor">
+                        Minor
+                    </option>
+
+                    <option value="Moderate">
+                        Moderate
+                    </option>
+
+                    <option value="Severe">
+                        Severe
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 14 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    14 Breed / Wool Type
+                </label>
+
+                <select id="i_woolType">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Fine Wool">
+                        Fine Wool
+                    </option>
+
+                    <option value="Medium Wool">
+                        Medium Wool
+                    </option>
+
+                    <option value="Coarse Wool">
+                        Coarse Wool
+                    </option>
+
+                    <option value="Mixed Wool">
+                        Mixed Wool
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 15 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    15 Shearing Condition
+                </label>
+
+                <select id="i_shearingCondition">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Excellent">
+                        Excellent
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Average">
+                        Average
+                    </option>
+
+                    <option value="Poor">
+                        Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- 16 -->
+
+            <div class="inspection-field">
+
+                <label>
+                    16 Lot Consistency
+                </label>
+
+                <select id="i_lotConsistency">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="Excellent">
+                        Excellent
+                    </option>
+
+                    <option value="Good">
+                        Good
+                    </option>
+
+                    <option value="Average">
+                        Average
+                    </option>
+
+                    <option value="Poor">
+                        Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- VALIDATION ERROR -->
+
+        <div
+            id="formError"
+            class="form-error">
+        </div>
+
+
+        <!-- VERIFICATION RESULT -->
+
+        <div
+            id="verificationResultBox"
+            class="result-box">
+
+            <div class="result-title">
+                Verification Result
+            </div>
+
+            <div id="verificationResultText">
+
+                Enter all 16 inspection values and click
+                <strong>Verify Batch</strong>.
+
+            </div>
+
+        </div>
+
+
+        <!-- QUALITY REPORT -->
+
+        <div
+            id="qualityReport"
+            class="quality-report">
+
+            <h3>
+                Wool Quality Analysis
+            </h3>
+
+
+            <div class="score-summary">
+
+
+                <div class="score-card">
+
+                    <small>
+                        WOOL QUALITY
+                    </small>
+
+                    <strong id="qualityPercentage">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="score-card">
+
+                    <small>
+                        VERIFICATION MATCH
+                    </small>
+
+                    <strong id="verificationPercentage">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="score-card">
+
+                    <small>
+                        IDEAL RATE
+                    </small>
+
+                    <strong id="idealRate">
+                        ₹0/kg
+                    </strong>
+
+                </div>
+
+
+                <div class="score-card">
+
+                    <small>
+                        CURRENT RATE
+                    </small>
+
+                    <strong id="currentRate">
+                        ₹0/kg
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- 16 RATING BARS -->
+
+            <div style="margin-top:20px;">
+
+                <h3>
+                    Parameter Rating
+                </h3>
+
+                <div
+                    id="ratingList"
+                    class="rating-list">
+                </div>
+
+            </div>
+
+
+            <!-- MARKET VALUE -->
+
+            <div class="value-section">
+
+                <h3>
+                    Wool Market Value
+                </h3>
+
+
+                <div class="value-grid">
+
+
+                    <div class="value-card">
+
+                        <small>
+                            IDEAL MARKET RATE
+                        </small>
+
+                        <strong id="idealRate2">
+                            ₹0/kg
+                        </strong>
+
+                        <span>
+                            100% quality benchmark
+                        </span>
+
+                    </div>
+
+
+                    <div class="value-card">
+
+                        <small>
+                            CURRENT BATCH RATE
+                        </small>
+
+                        <strong id="currentRate2">
+                            ₹0/kg
+                        </strong>
+
+                        <span>
+                            Based on quality %
+                        </span>
+
+                    </div>
+
+
+                    <div class="value-card">
+
+                        <small>
+                            IDEAL BATCH VALUE
+                        </small>
+
+                        <strong id="idealValue">
+                            ₹0
+                        </strong>
+
+                        <span>
+                            At ideal quality
+                        </span>
+
+                    </div>
+
+
+                    <div class="value-card">
+
+                        <small>
+                            CURRENT BATCH VALUE
+                        </small>
+
+                        <strong id="currentValue">
+                            ₹0
+                        </strong>
+
+                        <span id="valueDifference">
+                            Current estimated value
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="value-note">
+
+                    <strong>
+                        Indicative prototype calculation:
+                    </strong>
+
+                    Current batch value is calculated from
+                    the wool type market benchmark × batch
+                    weight × measured quality percentage.
+
+                    Actual market prices can vary by market,
+                    buyer, specification, testing and sale
+                    conditions.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MODAL FOOTER -->
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closeInspection()">
+
+                Close
+
+            </button>
+
+
+            <button
+                type="button"
+                id="verifyButton"
+                class="btn btn-primary"
+                onclick="submitInspection()">
+
+                Verify Batch
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   FARM2WOOL MANUFACTURER JAVASCRIPT
+   ========================================================= */
+
+const STORAGE_KEY = "farm2woolBatches";
+
+let currentInspectionId = null;
+
+
+/* =========================================================
+   MARKET BENCHMARKS
+   ========================================================= */
+
+const MARKET_RATES = {
+
+    "Fine Wool": 650,
+
+    "Medium Wool": 500,
+
+    "Coarse Wool": 380,
+
+    "Mixed Wool": 440
+
+};
+
+
+/* =========================================================
+   QUALITY WEIGHTS
+   ========================================================= */
+
+const QUALITY_WEIGHTS = {
+
+    fibreThickness: 15,
+    fibreLength: 10,
+    moisture: 5,
+    cleanliness: 8,
+    grease: 5,
+    yield: 10,
+    strength: 10,
+    colour: 5,
+    uniformity: 6,
+    crimp: 5,
+    contamination: 6,
+    odourStorage: 4,
+    pestDamage: 4,
+    woolType: 3,
+    shearingCondition: 2,
+    lotConsistency: 2
+
+};
+
+
+/* =========================================================
+   GET BATCHES
+   ========================================================= */
+
+function getBatches() {
+
+    try {
+
+        const raw =
+            localStorage.getItem(STORAGE_KEY);
+
+        if (!raw) {
+            return [];
+        }
+
+        const data = JSON.parse(raw);
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        console.error(
+            "Could not read batches:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE BATCHES
+   ========================================================= */
+
+function saveBatches(batches) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(batches)
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function statusOf(batch) {
+
+    if (
+        batch.returnStatus === "Returned"
+    ) {
+        return "returned";
+    }
+
+
+    if (
+        batch.inspectionStatus === "Verified"
+    ) {
+        return "verified";
+    }
+
+
+    if (
+        batch.inspectionStatus === "Pending"
+    ) {
+        return "inspection";
+    }
+
+
+    if (
+        batch.purchaseStatus === "Purchased"
+    ) {
+        return "purchased";
+    }
+
+
+    return "available";
+
+}
+
+
+function statusText(batch) {
+
+    const status =
+        statusOf(batch);
+
+
+    return {
+
+        available: "Available",
+
+        purchased: "Purchased",
+
+        inspection: "Inspection Pending",
+
+        verified: "Verified",
+
+        returned: "Returned"
+
+    }[status];
+
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function updateStats() {
+
+    const batches =
+        getBatches();
+
+
+    const available =
+        batches.filter(
+            b => statusOf(b) === "available"
+        ).length;
+
+
+    const purchased =
+        batches.filter(
+            b => b.purchaseStatus === "Purchased"
+        ).length;
+
+
+    const pending =
+        batches.filter(
+            b => b.inspectionStatus === "Pending"
+        ).length;
+
+
+    const verified =
+        batches.filter(
+            b => b.inspectionStatus === "Verified"
+        ).length;
+
+
+    const weight =
+        batches
+        .filter(
+            b => b.purchaseStatus === "Purchased"
+        )
+        .reduce(
+            (sum,b) =>
+                sum + Number(b.weight || 0),
+            0
+        );
+
+
+    document.getElementById(
+        "availableCount"
+    ).textContent = available;
+
+
+    document.getElementById(
+        "purchasedCount"
+    ).textContent = purchased;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).textContent = pending;
+
+
+    document.getElementById(
+        "verifiedCount"
+    ).textContent = verified;
+
+
+    document.getElementById(
+        "totalWool"
+    ).textContent =
+        weight.toLocaleString() +
+        " kg";
+
+}
+
+
+/* =========================================================
+   MARKETPLACE
+   ========================================================= */
+
+function renderMarketplace() {
+
+    const grid =
+        document.getElementById(
+            "marketplaceGrid"
+        );
+
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    const filter =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    const batches =
+        getBatches()
+        .filter(batch => {
+
+
+            const text = (
+
+                batch.id + " " +
+
+                batch.batchName + " " +
+
+                batch.breed + " " +
+
+                batch.location
+
+            ).toLowerCase();
+
+
+            const matchesSearch =
+                text.includes(search);
+
+
+            const matchesFilter =
+                filter === "all" ||
+                statusOf(batch) === filter;
+
+
+            return (
+                matchesSearch &&
+                matchesFilter
+            );
+
+        });
+
+
+    if (!batches.length) {
+
+        grid.innerHTML = `
+
+            <div style="
+                grid-column:1/-1;
+                padding:45px;
+                text-align:center;
+                color:#7b8780;
+                font-size:12px;
+            ">
+
+                No matching wool batches found.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        batches.map(batch => {
+
+
+            const status =
+                statusOf(batch);
+
+
+            const canPurchase =
+                status === "available";
+
+
+            const canInspect =
+                status === "inspection";
+
+
+            const quality =
+                batch.qualityScore ??
+                batch.qualityReport?.qualityPercentage ??
+                0;
+
+
+            const rate =
+                batch.qualityReport?.currentMarketRate ??
+                batch.indicativeRate ??
+                0;
+
+
+            const value =
+                batch.qualityReport?.currentBatchValue ??
+                batch.indicativePrice ??
+                0;
+
+
+            return `
+
+                <div class="market-card">
+
+                    <div class="market-top">
+
+                        <div>
+
+                            <div class="market-id">
+
+                                ${escapeHtml(batch.id)}
+
+                            </div>
+
+                            <h3>
+
+                                ${escapeHtml(
+                                    batch.batchName ||
+                                    "Wool Batch"
+                                )}
+
+                            </h3>
+
+                        </div>
+
+
+                        <span class="status-pill">
+
+                            ${statusText(batch)}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="market-data">
+
+
+                        <div>
+
+                            <small>
+                                Location
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    batch.location ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Breed
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    batch.breed ||
+                                    "—"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Weight
+                            </small>
+
+                            <strong>
+                                ${Number(
+                                    batch.weight || 0
+                                )} kg
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Quality
+                            </small>
+
+                            <strong>
+                                ${quality}%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Rate
+                            </small>
+
+                            <strong>
+                                ₹${Number(
+                                    rate || 0
+                                ).toLocaleString()}/kg
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Current Value
+                            </small>
+
+                            <strong>
+                                ₹${Number(
+                                    value || 0
+                                ).toLocaleString()}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="actions">
+
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="viewBatch('${batch.id}')">
+
+                            View
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="showManufacturerQR('${batch.id}')">
+
+                            QR
+
+                        </button>
+
+
+                        ${
+                            canPurchase
+                            ?
+                            `
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="purchaseBatch('${batch.id}')">
+
+                                Purchase
+
+                            </button>
+
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            canInspect
+                            ?
+                            `
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="openInspection('${batch.id}')">
+
+                                Inspect
+
+                            </button>
+
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   PURCHASES
+   ========================================================= */
+
+function renderPurchases() {
+
+    const grid =
+        document.getElementById(
+            "purchaseGrid"
+        );
+
+
+    const batches =
+        getBatches()
+        .filter(
+            b =>
+                b.purchaseStatus === "Purchased"
+        );
+
+
+    if (!batches.length) {
+
+        grid.innerHTML = `
+
+            <div style="
+                grid-column:1/-1;
+                padding:35px;
+                text-align:center;
+                color:#7b8780;
+                font-size:12px;
+            ">
+
+                No purchased batches yet.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        batches.map(batch => {
+
+
+            const quality =
+                batch.qualityReport?.qualityPercentage ??
+                batch.qualityScore ??
+                0;
+
+
+            return `
+
+                <div class="market-card">
+
+                    <div class="market-id">
+
+                        ${escapeHtml(batch.id)}
+
+                    </div>
+
+
+                    <h3>
+
+                        ${escapeHtml(
+                            batch.batchName ||
+                            "Wool Batch"
+                        )}
+
+                    </h3>
+
+
+                    <div class="market-data">
+
+
+                        <div>
+
+                            <small>
+                                Weight
+                            </small>
+
+                            <strong>
+                                ${Number(
+                                    batch.weight || 0
+                                )} kg
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Quality
+                            </small>
+
+                            <strong>
+                                ${quality}%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Inspection
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    batch.inspectionStatus ||
+                                    "Pending"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Payment
+                            </small>
+
+                            <strong>
+                                ${escapeHtml(
+                                    batch.paymentStatus ||
+                                    "Held"
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="actions">
+
+
+                        ${
+                            batch.inspectionStatus === "Pending"
+                            ?
+                            `
+
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="openInspection('${batch.id}')">
+
+                                Inspect
+
+                            </button>
+
+                            `
+                            :
+                            ""
+                        }
+
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="viewBatch('${batch.id}')">
+
+                            View
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   FULL BATCH QR
+   ========================================================= */
+
+function buildQRPayload(batch) { return f2wQRText(batch); }
+
+function showManufacturerQR(id) { f2wShowBatch(id, true); }
+
+function openManufacturerQRImage() {
+    if (window.currentManufacturerQR) window.open(window.currentManufacturerQR, "_blank");
+}
+
+function closeManufacturerQR() {
+    document.getElementById("manufacturerQRModal").style.display = "none";
+}
+
+
+/* =========================================================
+   PURCHASE BATCH
+   ========================================================= */
+
+function purchaseBatch(id) {
+
+    const batches =
+        getBatches();
+
+
+    const batch =
+        batches.find(
+            b => b.id === id
+        );
+
+
+    if (!batch) {
+
+        alert(
+            "Batch could not be found."
+        );
+
+        return;
+
+    }
+
+
+    const amount =
+        Number(
+            batch.qualityReport?.currentBatchValue ??
+            batch.indicativePrice ??
+            0
+        );
+
+
+    const confirmed =
+        confirm(
+
+            "Purchase this wool batch?\n\n" +
+
+            "Estimated amount: ₹" +
+
+            amount.toLocaleString() +
+
+            "\n\n" +
+
+            "Payment will remain held until inspection."
+
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    batch.purchaseStatus =
+        "Purchased";
+
+
+    batch.stage =
+        "Purchased";
+
+
+    batch.inspectionStatus =
+        "Pending";
+
+
+    batch.paymentStatus =
+        "Held";
+
+
+    batch.returnStatus =
+        "None";
+
+
+    batch.manufacturerId =
+        "MFR-DEMO-001";
+
+
+    batch.manufacturerName =
+        "Demo Manufacturer";
+
+
+    batch.purchasedAt =
+        new Date().toISOString();
+
+
+    saveBatches(batches);
+
+
+    alert(
+        "Batch purchased successfully.\n\n" +
+        "Payment is held until inspection."
+    );
+
+
+    updateStats();
+
+    renderMarketplace();
+
+    renderPurchases();
+
+}
+
+
+/* =========================================================
+   OPEN INSPECTION
+   ========================================================= */
+
+function openInspection(id) {
+
+    const batch =
+        getBatches()
+        .find(
+            b => b.id === id
+        );
+
+
+    if (!batch) {
+
+        alert(
+            "Batch not found."
+        );
+
+        return;
+
+    }
+
+
+    currentInspectionId = id;
+
+
+    document.getElementById(
+        "inspectionBatchInfo"
+    ).innerHTML = `
+
+        <strong>
+            ${escapeHtml(batch.id)}
+        </strong>
+
+        —
+        ${escapeHtml(
+            batch.batchName ||
+            "Wool Batch"
+        )}
+
+        <br><br>
+
+        Farmer declaration quality:
+
+        <strong>
+            ${Number(
+                batch.qualityScore || 0
+            )}%
+        </strong>
+
+        <br>
+
+        Weight:
+
+        <strong>
+            ${Number(
+                batch.weight || 0
+            )} kg
+        </strong>
+
+    `;
+
+
+    const q =
+        batch.qualityParameters || {};
+
+
+    const map = {
+
+        i_fibreThickness:
+            q.fibreThickness,
+
+        i_fibreLength:
+            q.fibreLength,
+
+        i_moisture:
+            q.moisture,
+
+        i_cleanliness:
+            q.cleanliness,
+
+        i_grease:
+            q.grease,
+
+        i_yield:
+            q.yield,
+
+        i_strength:
+            q.strength,
+
+        i_colour:
+            q.colour,
+
+        i_uniformity:
+            q.uniformity,
+
+        i_crimp:
+            q.crimp,
+
+        i_contamination:
+            q.contamination,
+
+        i_odourStorage:
+            q.odourStorage,
+
+        i_pestDamage:
+            q.pestDamage,
+
+        i_woolType:
+            q.woolType,
+
+        i_shearingCondition:
+            q.shearingCondition,
+
+        i_lotConsistency:
+            q.lotConsistency
+
+    };
+
+
+    Object.entries(map)
+        .forEach(
+            ([elementId,value]) => {
+
+                const element =
+                    document.getElementById(
+                        elementId
+                    );
+
+
+                if (element) {
+
+                    element.value =
+                        value ?? "";
+
+                }
+
+            }
+        );
+
+
+    clearValidation();
+
+
+    document.getElementById(
+        "verificationResultText"
+    ).innerHTML = `
+
+        Enter all 16 inspection values and click
+
+        <strong>
+            Verify Batch
+        </strong>.
+
+    `;
+
+
+    document.getElementById(
+        "verificationResultBox"
+    ).className =
+        "result-box";
+
+
+    document.getElementById(
+        "qualityReport"
+    ).classList.remove("show");
+
+
+    document.getElementById(
+        "verifyButton"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "verifyButton"
+    ).textContent =
+        "Verify Batch";
+
+
+    document.getElementById(
+        "inspectionModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   CLOSE INSPECTION
+   ========================================================= */
+
+function closeInspection() {
+
+    document.getElementById(
+        "inspectionModal"
+    ).classList.remove("show");
+
+
+    currentInspectionId =
+        null;
+
+}
+
+
+/* =========================================================
+   GET INSPECTION
+   ========================================================= */
+
+function getInspection() {
+
+    return {
+
+        fibreThickness:
+            document.getElementById(
+                "i_fibreThickness"
+            ).value.trim(),
+
+        fibreLength:
+            document.getElementById(
+                "i_fibreLength"
+            ).value.trim(),
+
+        moisture:
+            document.getElementById(
+                "i_moisture"
+            ).value.trim(),
+
+        cleanliness:
+            document.getElementById(
+                "i_cleanliness"
+            ).value,
+
+        grease:
+            document.getElementById(
+                "i_grease"
+            ).value.trim(),
+
+        yield:
+            document.getElementById(
+                "i_yield"
+            ).value.trim(),
+
+        strength:
+            document.getElementById(
+                "i_strength"
+            ).value.trim(),
+
+        colour:
+            document.getElementById(
+                "i_colour"
+            ).value,
+
+        uniformity:
+            document.getElementById(
+                "i_uniformity"
+            ).value,
+
+        crimp:
+            document.getElementById(
+                "i_crimp"
+            ).value,
+
+        contamination:
+            document.getElementById(
+                "i_contamination"
+            ).value,
+
+        odourStorage:
+            document.getElementById(
+                "i_odourStorage"
+            ).value,
+
+        pestDamage:
+            document.getElementById(
+                "i_pestDamage"
+            ).value,
+
+        woolType:
+            document.getElementById(
+                "i_woolType"
+            ).value,
+
+        shearingCondition:
+            document.getElementById(
+                "i_shearingCondition"
+            ).value,
+
+        lotConsistency:
+            document.getElementById(
+                "i_lotConsistency"
+            ).value
+
+    };
+
+}
+
+
+/* =========================================================
+   REQUIRED FIELDS
+   ========================================================= */
+
+const FIELD_IDS = [
+
+    "i_fibreThickness",
+    "i_fibreLength",
+    "i_moisture",
+    "i_cleanliness",
+    "i_grease",
+    "i_yield",
+    "i_strength",
+    "i_colour",
+    "i_uniformity",
+    "i_crimp",
+    "i_contamination",
+    "i_odourStorage",
+    "i_pestDamage",
+    "i_woolType",
+    "i_shearingCondition",
+    "i_lotConsistency"
+
+];
+
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+function validateInspection(inspection) {
+
+    clearValidation();
+
+
+    const missing = [];
+
+
+    FIELD_IDS.forEach(id => {
+
+        const element =
+            document.getElementById(id);
+
+
+        if (
+            !element ||
+            element.value === "" ||
+            element.value === null
+        ) {
+
+            missing.push(id);
+
+            if (element) {
+                element.classList.add(
+                    "error-field"
+                );
+            }
+
+        }
+
+    });
+
+
+    if (missing.length) {
+
+        const labels = missing.map(id => {
+
+            const element =
+                document.getElementById(id);
+
+
+            return element
+                ?.previousElementSibling
+                ?.textContent
+                ?.trim() ||
+                id;
+
+        });
+
+
+        const error =
+            document.getElementById(
+                "formError"
+            );
+
+
+        error.innerHTML = `
+
+            <strong>
+                Please complete all 16 inspection parameters.
+            </strong>
+
+            <br>
+
+            Missing:
+
+            ${labels
+                .map(
+                    label =>
+                        escapeHtml(label)
+                )
+                .join(", ")
+            }
+
+        `;
+
+
+        error.classList.add(
+            "show"
+        );
+
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   CLEAR VALIDATION
+   ========================================================= */
+
+function clearValidation() {
+
+    document
+        .querySelectorAll(
+            ".error-field"
+        )
+        .forEach(
+            element =>
+                element.classList.remove(
+                    "error-field"
+                )
+        );
+
+
+    document.getElementById(
+        "formError"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   TEXT MATCH
+   ========================================================= */
+
+function textMatch(a,b) {
+
+    if (
+        a === undefined ||
+        b === undefined ||
+        a === null ||
+        b === null
+    ) {
+        return false;
+    }
+
+
+    return String(a)
+        .trim()
+        .toLowerCase()
+        ===
+        String(b)
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* =========================================================
+   NUMERIC MATCH
+   ========================================================= */
+
+function numericMatch(
+    inspected,
+    farmer,
+    tolerance
+) {
+
+    const a =
+        Number(inspected);
+
+    const b =
+        Number(farmer);
+
+
+    if (
+        !Number.isFinite(a) ||
+        !Number.isFinite(b)
+    ) {
+        return false;
+    }
+
+
+    if (b === 0) {
+        return a === 0;
+    }
+
+
+    return (
+        Math.abs(a-b) /
+        Math.abs(b)
+    ) <= tolerance;
+
+}
+
+
+/* =========================================================
+   VERIFICATION MATCH SCORE
+   ========================================================= */
+
+function calculateVerification(
+    farmer,
+    inspection
+) {
+
+    const rules = [
+
+        [
+            "fibreThickness",
+            .10,
+            "numeric"
+        ],
+
+        [
+            "fibreLength",
+            .15,
+            "numeric"
+        ],
+
+        [
+            "moisture",
+            .15,
+            "numeric"
+        ],
+
+        [
+            "cleanliness",
+            0,
+            "text"
+        ],
+
+        [
+            "grease",
+            .20,
+            "numeric"
+        ],
+
+        [
+            "yield",
+            .15,
+            "numeric"
+        ],
+
+        [
+            "strength",
+            .15,
+            "numeric"
+        ],
+
+        [
+            "colour",
+            0,
+            "text"
+        ],
+
+        [
+            "uniformity",
+            0,
+            "text"
+        ],
+
+        [
+            "crimp",
+            0,
+            "text"
+        ],
+
+        [
+            "contamination",
+            0,
+            "text"
+        ],
+
+        [
+            "odourStorage",
+            0,
+            "text"
+        ],
+
+        [
+            "pestDamage",
+            0,
+            "text"
+        ],
+
+        [
+            "woolType",
+            0,
+            "text"
+        ],
+
+        [
+            "shearingCondition",
+            0,
+            "text"
+        ],
+
+        [
+            "lotConsistency",
+            0,
+            "text"
+        ]
+
+    ];
+
+
+    let matched = 0;
+
+
+    rules.forEach(
+        ([key,tolerance,type]) => {
+
+
+            let result;
+
+
+            if (type === "numeric") {
+
+                result =
+                    numericMatch(
+                        inspection[key],
+                        farmer[key],
+                        tolerance
+                    );
+
+            } else {
+
+                result =
+                    textMatch(
+                        inspection[key],
+                        farmer[key]
+                    );
+
+            }
+
+
+            if (result) {
+                matched++;
+            }
+
+        }
+    );
+
+
+    return Math.round(
+        matched /
+        rules.length *
+        100
+    );
+
+}
+
+
+/* =========================================================
+   NUMERIC QUALITY RATING
+   ========================================================= */
+
+function rangeRating(
+    value,
+    min,
+    max
+) {
+
+    const number =
+        Number(value);
+
+
+    if (
+        !Number.isFinite(number)
+    ) {
+        return 0;
+    }
+
+
+    if (
+        number >= min &&
+        number <= max
+    ) {
+        return 100;
+    }
+
+
+    const range =
+        max - min;
+
+
+    if (number < min) {
+
+        const difference =
+            min - number;
+
+
+        return Math.max(
+            0,
+            Math.round(
+                100 -
+                (difference / range * 100)
+            )
+        );
+
+    }
+
+
+    const difference =
+        number - max;
+
+
+    return Math.max(
+        0,
+        Math.round(
+            100 -
+            (difference / range * 100)
+        )
+    );
+
+}
+
+
+/* =========================================================
+   CATEGORY QUALITY RATING
+   ========================================================= */
+
+function categoryRating(
+    value,
+    ratings
+) {
+
+    return Number(
+        ratings[value] ?? 0
+    );
+
+}
+
+
+/* =========================================================
+   CALCULATE ALL 16 PARAMETER RATINGS
+   ========================================================= */
+
+function calculateParameterRatings(
+    inspection
+) {
+
+    return {
+
+        fibreThickness:
+            rangeRating(
+                inspection.fibreThickness,
+                18,
+                24
+            ),
+
+        fibreLength:
+            rangeRating(
+                inspection.fibreLength,
+                60,
+                100
+            ),
+
+        moisture:
+            rangeRating(
+                inspection.moisture,
+                8,
+                16
+            ),
+
+        cleanliness:
+            categoryRating(
+                inspection.cleanliness,
+                {
+                    Excellent: 100,
+                    Good: 85,
+                    Average: 65,
+                    Poor: 40
+                }
+            ),
+
+        grease:
+            rangeRating(
+                inspection.grease,
+                8,
+                20
+            ),
+
+        yield:
+            rangeRating(
+                inspection.yield,
+                55,
+                75
+            ),
+
+        strength:
+            rangeRating(
+                inspection.strength,
+                25,
+                45
+            ),
+
+        colour:
+            categoryRating(
+                inspection.colour,
+                {
+                    "Bright White": 100,
+                    "White": 95,
+                    "Cream": 80,
+                    "Grey": 60,
+                    "Brown": 45,
+                    "Black": 35
+                }
+            ),
+
+        uniformity:
+            categoryRating(
+                inspection.uniformity,
+                {
+                    Excellent: 100,
+                    Good: 85,
+                    Average: 65,
+                    Poor: 40
+                }
+            ),
+
+        crimp:
+            categoryRating(
+                inspection.crimp,
+                {
+                    High: 100,
+                    Medium: 85,
+                    Low: 65
+                }
+            ),
+
+        contamination:
+            categoryRating(
+                inspection.contamination,
+                {
+                    None: 100,
+                    Low: 85,
+                    Medium: 60,
+                    High: 30
+                }
+            ),
+
+        odourStorage:
+            categoryRating(
+                inspection.odourStorage,
+                {
+                    Excellent: 100,
+                    Good: 85,
+                    Average: 65,
+                    Poor: 40
+                }
+            ),
+
+        pestDamage:
+            categoryRating(
+                inspection.pestDamage,
+                {
+                    None: 100,
+                    Minor: 75,
+                    Moderate: 45,
+                    Severe: 20
+                }
+            ),
+
+        woolType:
+            categoryRating(
+                inspection.woolType,
+                {
+                    "Fine Wool": 100,
+                    "Medium Wool": 90,
+                    "Coarse Wool": 75,
+                    "Mixed Wool": 65
+                }
+            ),
+
+        shearingCondition:
+            categoryRating(
+                inspection.shearingCondition,
+                {
+                    Excellent: 100,
+                    Good: 85,
+                    Average: 65,
+                    Poor: 40
+                }
+            ),
+
+        lotConsistency:
+            categoryRating(
+                inspection.lotConsistency,
+                {
+                    Excellent: 100,
+                    Good: 85,
+                    Average: 65,
+                    Poor: 40
+                }
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   QUALITY PERCENTAGE
+   ========================================================= */
+
+function calculateQualityPercentage(
+    ratings
+) {
+
+    let total = 0;
+
+
+    Object.keys(
+        QUALITY_WEIGHTS
+    ).forEach(key => {
+
+        total +=
+            Number(
+                ratings[key] || 0
+            ) *
+            QUALITY_WEIGHTS[key];
+
+    });
+
+
+    return Math.round(
+        total / 100
+    );
+
+}
+
+
+/* =========================================================
+   MARKET RATE
+   ========================================================= */
+
+function calculateMarketValue(
+    batch,
+    inspection,
+    qualityPercentage
+) {
+
+    const woolType =
+        inspection.woolType ||
+        batch.qualityParameters?.woolType ||
+        "Medium Wool";
+
+
+    const idealRate =
+        MARKET_RATES[woolType] ||
+        MARKET_RATES["Medium Wool"];
+
+
+    const weight =
+        Number(
+            batch.weight || 0
+        );
+
+
+    /*
+       Quality % directly scales the ideal
+       benchmark for this prototype.
+    */
+
+    const currentRate =
+        Math.round(
+            idealRate *
+            qualityPercentage /
+            100
+        );
+
+
+    const idealValue =
+        Math.round(
+            weight *
+            idealRate
+        );
+
+
+    const currentValue =
+        Math.round(
+            weight *
+            currentRate
+        );
+
+
+    const difference =
+        currentValue -
+        idealValue;
+
+
+    return {
+
+        woolType,
+
+        idealRate,
+
+        currentRate,
+
+        idealValue,
+
+        currentValue,
+
+        difference
+
+    };
+
+}
+
+
+/* =========================================================
+   RENDER RATING BARS
+   ========================================================= */
+
+function renderRatingBars(
+    inspection,
+    ratings
+) {
+
+    const container =
+        document.getElementById(
+            "ratingList"
+        );
+
+
+    const parameters = [
+
+        [
+            "Fibre Thickness / Micron",
+            "fibreThickness"
+        ],
+
+        [
+            "Fibre Length",
+            "fibreLength"
+        ],
+
+        [
+            "Moisture Content",
+            "moisture"
+        ],
+
+        [
+            "Cleanliness",
+            "cleanliness"
+        ],
+
+        [
+            "Grease / Lanolin",
+            "grease"
+        ],
+
+        [
+            "Wool Yield",
+            "yield"
+        ],
+
+        [
+            "Fibre Strength",
+            "strength"
+        ],
+
+        [
+            "Colour",
+            "colour"
+        ],
+
+        [
+            "Fibre Uniformity",
+            "uniformity"
+        ],
+
+        [
+            "Crimp",
+            "crimp"
+        ],
+
+        [
+            "Contamination",
+            "contamination"
+        ],
+
+        [
+            "Odour / Storage",
+            "odourStorage"
+        ],
+
+        [
+            "Pest / Damage",
+            "pestDamage"
+        ],
+
+        [
+            "Breed / Wool Type",
+            "woolType"
+        ],
+
+        [
+            "Shearing Condition",
+            "shearingCondition"
+        ],
+
+        [
+            "Lot Consistency",
+            "lotConsistency"
+        ]
+
+    ];
+
+
+    container.innerHTML =
+        parameters.map(
+            ([name,key]) => {
+
+                const rating =
+                    Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            Number(
+                                ratings[key] || 0
+                            )
+                        )
+                    );
+
+
+                const value =
+                    inspection[key] ?? "";
+
+
+                return `
+
+                    <div class="rating-row">
+
+                        <div class="rating-head">
+
+                            <span class="rating-name">
+
+                                ${escapeHtml(name)}
+
+                            </span>
+
+                            <span class="rating-value">
+
+                                ${rating}%
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="rating-track">
+
+                            <div
+                                class="rating-fill"
+                                style="
+                                    width:${rating}%;
+                                ">
+                            </div>
+
+                        </div>
+
+
+                        <div style="
+                            margin-top:5px;
+                            color:#7b8780;
+                            font-size:8px;
+                        ">
+
+                            Inspected value:
+
+                            <strong>
+                                ${escapeHtml(value)}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================================================
+   SHOW QUALITY REPORT
+   ========================================================= */
+
+function showQualityReport(
+    batch,
+    inspection,
+    ratings,
+    qualityPercentage,
+    verificationScore
+) {
+
+    const market =
+        calculateMarketValue(
+            batch,
+            inspection,
+            qualityPercentage
+        );
+
+
+    document.getElementById(
+        "qualityPercentage"
+    ).textContent =
+        qualityPercentage + "%";
+
+
+    document.getElementById(
+        "verificationPercentage"
+    ).textContent =
+        verificationScore + "%";
+
+
+    document.getElementById(
+        "idealRate"
+    ).textContent =
+        "₹" +
+        market.idealRate.toLocaleString() +
+        "/kg";
+
+
+    document.getElementById(
+        "currentRate"
+    ).textContent =
+        "₹" +
+        market.currentRate.toLocaleString() +
+        "/kg";
+
+
+    document.getElementById(
+        "idealRate2"
+    ).textContent =
+        "₹" +
+        market.idealRate.toLocaleString() +
+        "/kg";
+
+
+    document.getElementById(
+        "currentRate2"
+    ).textContent =
+        "₹" +
+        market.currentRate.toLocaleString() +
+        "/kg";
+
+
+    document.getElementById(
+        "idealValue"
+    ).textContent =
+        "₹" +
+        market.idealValue.toLocaleString();
+
+
+    document.getElementById(
+        "currentValue"
+    ).textContent =
+        "₹" +
+        market.currentValue.toLocaleString();
+
+
+    document.getElementById(
+        "valueDifference"
+    ).textContent =
+
+        market.difference >= 0
+
+        ?
+
+        "₹" +
+        market.difference.toLocaleString() +
+        " vs ideal"
+
+        :
+
+        "₹" +
+        Math.abs(
+            market.difference
+        ).toLocaleString() +
+        " below ideal";
+
+
+    renderRatingBars(
+        inspection,
+        ratings
+    );
+
+
+    document.getElementById(
+        "qualityReport"
+    ).classList.add(
+        "show"
+    );
+
+
+    return market;
+
+}
+
+
+/* =========================================================
+   SUBMIT INSPECTION
+   ========================================================= */
+
+function submitInspection() {
+
+    /*
+       THIS FUNCTION DOES NOT USE FORM SUBMIT.
+       Therefore browser HTML validation cannot silently
+       block the button.
+    */
+
+
+    if (!currentInspectionId) {
+
+        alert(
+            "Please select a batch first."
+        );
+
+        return;
+
+    }
+
+
+    const batches =
+        getBatches();
+
+
+    const index =
+        batches.findIndex(
+            b =>
+                b.id ===
+                currentInspectionId
+        );
+
+
+    if (index === -1) {
+
+        alert(
+            "Batch not found."
+        );
+
+        return;
+
+    }
+
+
+    const batch =
+        batches[index];
+
+
+    const inspection =
+        getInspection();
+
+
+    /* =====================================================
+       VALIDATE ALL 16
+       ===================================================== */
+
+    if (
+        !validateInspection(
+            inspection
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       VERIFICATION MATCH
+       ===================================================== */
+
+    const farmerQuality =
+        batch.qualityParameters ||
+        {};
+
+
+    const verificationScore =
+        calculateVerification(
+            farmerQuality,
+            inspection
+        );
+
+
+    /* =====================================================
+       QUALITY RATINGS
+       ===================================================== */
+
+    const parameterRatings =
+        calculateParameterRatings(
+            inspection
+        );
+
+
+    const qualityPercentage =
+        calculateQualityPercentage(
+            parameterRatings
+        );
+
+
+    /* =====================================================
+       MARKET VALUE
+       ===================================================== */
+
+    const market =
+        calculateMarketValue(
+            batch,
+            inspection,
+            qualityPercentage
+        );
+
+
+    /* =====================================================
+       SAVE QUALITY REPORT
+       ===================================================== */
+
+    batch.manufacturerInspection =
+        inspection;
+
+
+    batch.verificationScore =
+        verificationScore;
+
+
+    batch.qualityScore =
+        qualityPercentage;
+
+
+    batch.qualityReport = {
+
+        qualityPercentage:
+
+            qualityPercentage,
+
+        verificationScore:
+
+            verificationScore,
+
+        parameterRatings:
+
+            parameterRatings,
+
+        inspectedValues:
+
+            inspection,
+
+        woolType:
+
+            market.woolType,
+
+        idealMarketRate:
+
+            market.idealRate,
+
+        currentMarketRate:
+
+            market.currentRate,
+
+        idealMarketValue:
+
+            market.idealValue,
+
+        currentBatchValue:
+
+            market.currentValue,
+
+        valueDifference:
+
+            market.difference,
+
+        generatedAt:
+
+            new Date().toISOString(),
+
+        model:
+
+            "Farm2Wool Indicative Quality Market Model"
+
+    };
+
+
+    batch.inspectedAt =
+        new Date().toISOString();
+
+
+    /* =====================================================
+       VERIFICATION RESULT
+       ===================================================== */
+
+    const passed =
+        verificationScore >= 85;
+
+
+    if (passed) {
+
+        batch.stage =
+            "Ready to Use";
+
+
+        batch.inspectionStatus =
+            "Verified";
+
+
+        batch.paymentStatus =
+            "Released";
+
+
+        batch.returnStatus =
+            "None";
+
+
+        batch.processingStatus =
+            "Ready for Processing";
+
+
+        batch.verificationDifference = {
+
+            matchedParameters:
+                Math.round(
+                    verificationScore *
+                    16 /
+                    100
+                ),
+
+            totalParameters:
+                16,
+
+            score:
+                verificationScore
+
+        };
+
+
+        saveBatches(
+            batches
+        );
+
+
+        document.getElementById(
+            "verificationResultBox"
+        ).className =
+            "result-box success";
+
+
+        document.getElementById(
+            "verificationResultText"
+        ).innerHTML = `
+
+            <strong>
+                ✓ BATCH VERIFIED
+            </strong>
+
+            <br><br>
+
+            Verification match:
+
+            <strong>
+                ${verificationScore}%
+            </strong>
+
+            <br>
+
+            Wool quality:
+
+            <strong>
+                ${qualityPercentage}%
+            </strong>
+
+            <br><br>
+
+            Payment:
+
+            <strong>
+                Released
+            </strong>
+
+            <br>
+
+            Batch:
+
+            <strong>
+                Ready to Use
+            </strong>
+
+            <br><br>
+
+            ✓ The quality report and market value
+            have been saved to this batch.
+
+        `;
+
+
+        document.getElementById(
+            "verifyButton"
+        ).textContent =
+            "✓ Batch Verified";
+
+
+        document.getElementById(
+            "verifyButton"
+        ).disabled =
+            true;
+
+
+        showQualityReport(
+            batch,
+            inspection,
+            parameterRatings,
+            qualityPercentage,
+            verificationScore
+        );
+
+
+        alert(
+
+            "BATCH VERIFIED SUCCESSFULLY!\n\n" +
+
+            "Verification Match: " +
+            verificationScore +
+            "%\n" +
+
+            "Wool Quality: " +
+            qualityPercentage +
+            "%\n\n" +
+
+            "Current Batch Value: ₹" +
+            market.currentValue.toLocaleString() +
+            "\n\n" +
+
+            "Payment Released.\n" +
+
+            "Batch is Ready to Use."
+
+        );
+
+    }
+
+
+    /* =====================================================
+       FAILED VERIFICATION
+       ===================================================== */
+
+    else {
+
+        batch.strikes =
+            Number(
+                batch.strikes || 0
+            ) + 1;
+
+
+        batch.inspectionStatus =
+            "Failed";
+
+
+        batch.paymentStatus =
+            "Held";
+
+
+        batch.processingStatus =
+            "Quality Mismatch";
+
+
+        batch.verificationDifference = {
+
+            matchedParameters:
+                Math.round(
+                    verificationScore *
+                    16 /
+                    100
+                ),
+
+            totalParameters:
+                16,
+
+            score:
+                verificationScore
+
+        };
+
+
+        saveBatches(
+            batches
+        );
+
+
+        document.getElementById(
+            "verificationResultBox"
+        ).className =
+            "result-box failure";
+
+
+        document.getElementById(
+            "verificationResultText"
+        ).innerHTML = `
+
+            <strong>
+                ✕ VERIFICATION FAILED
+            </strong>
+
+            <br><br>
+
+            Verification match:
+
+            <strong>
+                ${verificationScore}%
+            </strong>
+
+            <br>
+
+            Required:
+
+            <strong>
+                85%
+            </strong>
+
+            <br>
+
+            Wool quality:
+
+            <strong>
+                ${qualityPercentage}%
+            </strong>
+
+            <br><br>
+
+            Payment remains:
+
+            <strong>
+                Held
+            </strong>
+
+            <br>
+
+            A quality mismatch strike has been added.
+
+        `;
+
+
+        showQualityReport(
+            batch,
+            inspection,
+            parameterRatings,
+            qualityPercentage,
+            verificationScore
+        );
+
+
+        const shouldReturn =
+            confirm(
+
+                "Verification Match: " +
+                verificationScore +
+                "%\n\n" +
+
+                "The batch did not meet the 85% " +
+                "verification threshold.\n\n" +
+
+                "Wool Quality: " +
+                qualityPercentage +
+                "%\n\n" +
+
+                "Current estimated value: ₹" +
+                market.currentValue.toLocaleString() +
+                "\n\n" +
+
+                "Do you want to return this batch " +
+                "and request a refund?"
+
+            );
+
+
+        if (shouldReturn) {
+
+            batch.returnStatus =
+                "Returned";
+
+
+            batch.stage =
+                "Returned";
+
+
+            batch.paymentStatus =
+                "Refund Requested";
+
+
+            batch.returnReason =
+                "Quality mismatch";
+
+
+            batch.returnedAt =
+                new Date().toISOString();
+
+
+            saveBatches(
+                batches
+            );
+
+
+            document.getElementById(
+                "verificationResultText"
+            ).innerHTML += `
+
+                <br><br>
+
+                <strong>
+                    Batch Returned
+                </strong>
+
+                <br>
+
+                Refund request created.
+
+            `;
+
+        }
+
+    }
+
+
+    updateStats();
+
+    renderMarketplace();
+
+    renderPurchases();
+
+}
+
+
+/* =========================================================
+   VIEW BATCH
+   ========================================================= */
+
+function viewBatch(id) { f2wShowBatch(id, false); }
+
+
+/* =========================================================
+   SEARCH EVENTS
+   ========================================================= */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    renderMarketplace
+);
+
+
+document.getElementById(
+    "statusFilter"
+).addEventListener(
+    "change",
+    renderMarketplace
+);
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING BACKDROP
+   ========================================================= */
+
+document.getElementById(
+    "inspectionModal"
+).addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target ===
+            this
+        ) {
+
+            closeInspection();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+updateStats();
+
+renderMarketplace();
+
+renderPurchases();
+
+</script>
+
+
+
+<!-- BATCH QR MODAL -->
+<div id="manufacturerQRModal" class="qr-modal-overlay" style="display:none;">
+    <div class="qr-modal-box">
+        <button type="button" class="qr-modal-close" onclick="closeManufacturerQR()">×</button>
+        <div class="eyebrow" style="color:#b18a45;">FARM2WOOL BATCH QR</div>
+        <h2 id="manufacturerQRTitle">Batch QR Code</h2>
+        <p id="manufacturerQRSub">The QR contains the complete batch record and all 16 quality parameters.</p>
+        <div class="manufacturer-qr-image-wrap"><img id="manufacturerQRImage" alt="Farm2Wool batch QR"></div>
+        <strong id="manufacturerQRId"></strong>
+        <div class="qr-modal-note">Scan this QR with a phone camera. The encoded data contains the batch details, all 16 farmer quality parameters, manufacturer inspection data, verification and quality-market report when available.</div>
+        <div class="actions" style="justify-content:center;margin-top:15px;">
+            <button type="button" class="btn btn-secondary" onclick="openManufacturerQRImage()">Open QR Image</button>
+            <button type="button" class="btn btn-primary" onclick="closeManufacturerQR()">Close</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
